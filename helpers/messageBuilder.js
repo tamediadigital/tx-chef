@@ -109,7 +109,7 @@ function messageBuilder (obj) {
     elements: [
       {
         type: 'mrkdwn',
-        text: `Doodle hopes your day is *${superb.random()}*! | <https://clients.eurest.ch/de/tamediazuerich/menu|Online Werdino menu>`
+        text: `Doodle hopes your day (and lunch) is *${superb.random()}*! | <https://clients.eurest.ch/de/tamediazuerich/menu|Online Werdino menu> | <https://github.com/DoodleScheduling/werdino-daily-slack/issues|Report a problem>`
       }
     ]
   })
