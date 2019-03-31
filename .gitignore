@@ -1,0 +1,13 @@
+node_modules
+yarn.lock
+.nyc_output
+coverage
+coveralls
+.env
+jspm_packages
+
+# Serverless directories
+.serverless
+
+# Ignore the Google Cloud API keys 
+google-cloud-creds.json

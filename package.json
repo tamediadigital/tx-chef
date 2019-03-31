@@ -1,0 +1,46 @@
+{
+	"name": "werdino-daily-slack",
+	"version": "1.0.0",
+	"description": "The Werdino daily menu in English and German, delivered straight to Slack via AWS Lambda",
+	"license": "MIT",
+	"repository": "DoodleScheduling/werdino-daily-slack",
+	"author": {
+		"name": "Michael Wuergler",
+		"email": "wuergler@gmail.com",
+		"url": "https://github.com/radiovisual"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "jest",
+		"deploy:dev": "npm run test && serverless deploy -v --stage dev",
+		"deploy:prod": "npm run test && serverless deploy -v --stage prod",
+		"logs": "serverless logs --function runWerdino --tail",
+		"invoke:local": "SLS_DEBUG=* serverless invoke local --function runWerdino"
+	},
+	"files": [
+		"index.js",
+		"handler.js",
+		"config",
+		"helpers"
+	],
+	"keywords": [
+		"werdino",
+		"english",
+		"german",
+		"serverless",
+		"lambda"
+	],
+	"dependencies": {
+		"@google-cloud/translate": "^2.1.4",
+		"condense-whitespace": "^1.0.0",
+		"fetch-everywhere": "^1.0.5",
+		"simple-zeropad": "^1.0.5",
+		"superb": "^3.0.0",
+		"werdino": "^1.1.2"
+	},
+	"devDependencies": {
+		"jest": "^24.5.0"
+	}
+}

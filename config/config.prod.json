@@ -1,0 +1,4 @@
+{
+    "SLACK_WEBHOOK_ADDRESS": "https://hooks.slack.com/services/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",
+    "GOOGLE_APPLICATION_CREDENTIALS": "google-cloud-creds.json"
+}
