@@ -8,8 +8,8 @@
 
 :trophy:
 
-> *Werdino Daily is the most important Slack Integration of the 21st century* 
-> ~ Chuck Norris, Inventor of the Internet
+> _"Werdino Daily is the most important Slack Integration of the 21st century"_   
+~ Chuck Norris, Inventor of Slack, the Internet and the 21st century
 
 ![](media/screenshot.png)
 
