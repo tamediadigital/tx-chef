@@ -4,7 +4,7 @@
 
 :pizza: :hamburger: 
 
-> The Werdino daily menu in English and German, delivered straight to Slack via AWS Lambda
+> The [Werdino daily menu](https://clients.eurest.ch/de/tamediazuerich/menu) in English and German, delivered straight to Slack via AWS Lambda
 
 :trophy:
 
