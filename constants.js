@@ -1,1 +1,1 @@
-module.exports.ISSUES_LINK = 'https://github.com/DoodleScheduling/werdino-daily-slack/issues';
+module.exports.ISSUES_LINK = 'https://github.com/radiovisual/werdino-daily-slack/issues';
