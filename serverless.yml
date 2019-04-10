@@ -9,6 +9,8 @@ functions:
     handler: handler.runWerdino
     environment:
       SLACK_WEBHOOK_ADDRESS: ${file(./config/config.${self:provider.stage, }.json):SLACK_WEBHOOK_ADDRESS}
+      SLACK_WEBHOOK_ADDRESS2: ${file(./config/config.${self:provider.stage, }.json):SLACK_WEBHOOK_ADDRESS2}
+      SLACK_WEBHOOK_ADDRESS3: ${file(./config/config.${self:provider.stage, }.json):SLACK_WEBHOOK_ADDRESS3}
       GOOGLE_APPLICATION_CREDENTIALS: ${file(./config/config.${self:provider.stage, }.json):GOOGLE_APPLICATION_CREDENTIALS}
     events:
     - schedule:
