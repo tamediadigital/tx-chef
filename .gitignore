@@ -11,3 +11,5 @@ jspm_packages
 
 # Ignore the Google Cloud API keys 
 google-cloud-creds.json
+
+config
