@@ -9,7 +9,9 @@ const getWebhookAddresses = () => {
 		process.env.SLACK_WEBHOOK_ADDRESS,
 		process.env.SLACK_WEBHOOK_ADDRESS2,
 		process.env.SLACK_WEBHOOK_ADDRESS3,
-	].filter(a => typeof a === 'string');
+	].filter(a => {
+		return a && typeof a === 'string' && a.includes('http');
+	});
 
 	if (addresses.length === 0) {
 		return [devConfig.SLACK_WEBHOOK_ADDRESS];
