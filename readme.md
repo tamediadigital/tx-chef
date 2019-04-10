@@ -22,7 +22,15 @@
 ### Getting Started
 
 1. Make sure you have the Serverless framework installed globally: `npm install -g serverless`
-2. Use the `SLACK_WEBHOOK_ADDRESS` keys in `config/config.dev.json` and `config/config.prod.json` for the `dev` and `prod` deployments
+2. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
+
+```
+{
+    "SLACK_WEBHOOK_ADDRESS": "<YOUR_WEBHOOK_ADDRESS>",
+    "GOOGLE_APPLICATION_CREDENTIALS": "google-cloud-creds.json"
+}
+
+```
 3. Download and save your Google API credential file and save it with the filename of `google-cloud-creds.json` at the root of this directory. Make sure the credentials in the file are allowed to access the Google Translate API.
 
 ### Deploy to AWS Lambda
