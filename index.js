@@ -1,8 +1,8 @@
-const werdino = require('werdino');
 const { Translate } = require('@google-cloud/translate');
 const condense = require('condense-whitespace');
 const getDayKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
+const werdino = require('./helpers/werdino');
 const todaysItemKey = getDayKey();
 
 // Creates a client
@@ -48,13 +48,13 @@ const getWerdinoData = () => {
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
-				data.forEach(item => {
-					const title = condense(item.title);
+				Object.keys(data.meals).forEach(category => {
+					const item = data.meals[category];
 
-					german += `[T_] ${title}\n`;
+					german += `[T_] ${condense(category)}\n`;
 
-					const mealTitle = condense(item.meals[todaysItemKey].title);
-					const mealDescription = condense(item.meals[todaysItemKey].description);
+					const mealTitle = condense(item.title);
+					const mealDescription = condense(item.description || '');
 
 					german += `[M_T] ${mealTitle}\n`;
 
@@ -62,7 +62,7 @@ const getWerdinoData = () => {
 						german += `[M_D] ${mealDescription}\n`;
 					}
 
-					german += `[M_P] ${item.meals[todaysItemKey].prices.map(s => condense(s)).join(' | ')}\n`;
+					german += `[M_P] ${item.prices.map(s => condense(s)).join(' | ')}\n`;
 					german += '🦄\n';
 				});
 

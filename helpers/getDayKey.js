@@ -5,10 +5,10 @@ const zp = require('simple-zeropad');
  */
 function getDayKey() {
     const today = new Date()
-    const year = today.getFullYear();
+    const year = today.getFullYear() - 2000;
     const month = zp(today.getMonth() + 1);
     const day = zp(today.getDate())
-    return `${year}-${month}-${day}`
+    return `${day}.${month}.${year}`
 }
 
 module.exports = getDayKey;

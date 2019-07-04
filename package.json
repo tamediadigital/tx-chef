@@ -34,11 +34,12 @@
 	],
 	"dependencies": {
 		"@google-cloud/translate": "^2.1.4",
+		"axios": "^0.19.0",
+		"cheerio": "^1.0.0-rc.3",
 		"condense-whitespace": "^1.0.0",
 		"fetch-everywhere": "^1.0.5",
 		"simple-zeropad": "^1.0.5",
-		"superb": "^3.0.0",
-		"werdino": "^1.1.2"
+		"superb": "^3.0.0"
 	},
 	"devDependencies": {
 		"jest": "^24.5.0"
