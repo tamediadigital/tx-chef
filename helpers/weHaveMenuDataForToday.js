@@ -4,8 +4,7 @@
  * @param {*} todaysItemKey - today's date key in the form of '2019-03-30'
  */
 function weHaveMenuDataForToday(menuData, todaysItemKey) {
-    const dates = menuData.map(dayData => Object.keys(dayData.meals));
-    return dates.every(a => a.includes(todaysItemKey));
+    return menuData.date === todaysItemKey && Object.keys(menuData.meals).length > 0;
 }
 
 module.exports = weHaveMenuDataForToday; 
