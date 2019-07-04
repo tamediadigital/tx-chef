@@ -1,6 +1,6 @@
 {
 	"name": "werdino-daily-slack",
-	"version": "1.0.0",
+	"version": "2.0.0",
 	"description": "The Werdino daily menu in English and German, delivered straight to Slack via AWS Lambda",
 	"license": "MIT",
 	"repository": "https://github.com/radiovisual/werdino-daily-slack",
