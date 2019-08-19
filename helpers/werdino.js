@@ -8,7 +8,7 @@ const WERDINO_MENU_URL = 'https://clients.eurest.ch/de/tamediazuerich/menu';
  */
 const getWerdinoMenu = $ => {
   const day = {
-    date: $('.date')
+    date: $('.date').first()
       .text()
       .trim(),
     meals: {},
@@ -18,7 +18,7 @@ const getWerdinoMenu = $ => {
     const $menuSection = $(menuSection);
 
     const category = $menuSection
-      .find('.declarations')
+      .find('.menuline')
       .text()
       .trim();
 
