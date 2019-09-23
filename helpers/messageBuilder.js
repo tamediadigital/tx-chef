@@ -84,7 +84,7 @@ const sectionBuilder = obj => {
  * @param {Object} obj
  */
 function messageBuilder(obj) {
-	// Blocks stqrts off with Header only
+	// Blocks starts off with Header only
 	let blocks = [
 		{
 			type: 'section',
@@ -109,6 +109,16 @@ function messageBuilder(obj) {
 				text: `Doodle hopes your day (and lunch) is *${superb.random()}*! | <https://clients.eurest.ch/de/tamediazuerich/menu|Online Werdino menu> | <${ISSUES_LINK}|Report a problem>`,
 			},
 		],
+	});
+
+	// Now let's add a green note
+	blocks.push({type: 'divider'});
+	blocks.push({
+		type: 'section',
+		text: {
+			type: 'mrkdwn',
+			text: `:earth_asia: :green_heart: *Remember*: Using Werdino's washable dishes and cutlery is more eco-friendly.`
+		}
 	});
 
 	return blocks;
