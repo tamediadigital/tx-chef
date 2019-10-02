@@ -40,11 +40,11 @@ function objectify(text) {
 	return meals;
 }
 
-const getWerdinoData = () => {
+const getMenuData = (url) => {
 	let german = '';
 
 	return new Promise(resolve => {
-		werdino().then(data => {
+		werdino(url).then(data => {
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
@@ -96,4 +96,4 @@ const getWerdinoData = () => {
 	});
 };
 
-module.exports = getWerdinoData;
+module.exports = getMenuData;

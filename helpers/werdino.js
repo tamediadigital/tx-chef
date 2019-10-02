@@ -1,12 +1,10 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-const WERDINO_MENU_URL = 'https://clients.eurest.ch/de/tamediazuerich/menu';
-
 /**
  * Get Werdino daily menu
  */
-const getWerdinoMenu = $ => {
+const getMenu = $ => {
   const day = {
     date: $('.date').first()
       .text()
@@ -54,9 +52,9 @@ const getWerdinoMenu = $ => {
 /**
  * Export promise
  */
-module.exports = () =>
-  axios.get(WERDINO_MENU_URL).then(res => {
+module.exports = url =>
+  axios.get(url).then(res => {
     const { data } = res;
 
-    return getWerdinoMenu(cheerio.load(data));
+    return getMenu(cheerio.load(data));
   });

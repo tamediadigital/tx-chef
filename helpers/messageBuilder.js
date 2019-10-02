@@ -82,15 +82,17 @@ const sectionBuilder = obj => {
 /**
  * Build the actual message blocks including the "header", sections and "footer"
  * @param {Object} obj
+ * @param {String} url
+ * @param {String} name
  */
-function messageBuilder(obj) {
+function messageBuilder(obj, url, name) {
 	// Blocks starts off with Header only
 	let blocks = [
 		{
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: `Werdino menu for *${getTodaysDate()}*\n \n`,
+				text: `${name} menu for *${getTodaysDate()}*\n \n`,
 			},
 		},
 	];
@@ -106,7 +108,7 @@ function messageBuilder(obj) {
 		elements: [
 			{
 				type: 'mrkdwn',
-				text: `Doodle hopes your day (and lunch) is *${superb.random()}*! | <https://clients.eurest.ch/de/tamediazuerich/menu|Online Werdino menu> | <${ISSUES_LINK}|Report a problem>`,
+				text: `Doodle hopes your day (and lunch) is *${superb.random()}*! | <${url}|Online ${name} menu> | <${ISSUES_LINK}|Report a problem>`,
 			},
 		],
 	});
@@ -117,7 +119,7 @@ function messageBuilder(obj) {
 		type: 'section',
 		text: {
 			type: 'mrkdwn',
-			text: `:earth_asia: :green_heart: *Remember*: Using Werdino's washable dishes and cutlery is more eco-friendly.`
+			text: `:earth_asia: :green_heart: *Remember*: Using ${name}'s washable dishes and cutlery is more eco-friendly.`
 		}
 	});
 
