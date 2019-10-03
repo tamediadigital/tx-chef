@@ -1,14 +1,14 @@
 ![](media/hamburger300x300.png)
 
-# Werdino Daily
+# Werdino & Bubenberg Daily
 
 :pizza: :hamburger: 
 
-> The [Werdino daily menu](https://clients.eurest.ch/de/tamediazuerich/menu) in English and German, delivered straight to Slack via AWS Lambda
+> The [Werdino daily menu](https://clients.eurest.ch/de/tamediazuerich/menu) and the [Bubenberg daily menu](https://clients.eurest.ch/dzz/de/Bubenberg) in English and German, delivered straight to Slack via AWS Lambda
 
 :trophy:
 
-> _"Werdino Daily is the most important Slack Integration of the 21st century"_   
+> _"Werdino and Bubenberg Daily are the most important Slack Integrations of the 21st century"_   
 ~ Chuck Norris, Inventor of Slack, the Internet and the 21st century
 
 ![](media/screenshot.png)
@@ -24,15 +24,17 @@
 1. Make sure you have the Serverless framework installed globally: `npm install -g serverless`
 2. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
 
+:bulb: **Note:** You can have more than one webhook assigned for Werdino or Bubenberg, you just need to seperate the multiple webhook addresses with a comma
+
 ```
 {
-    "SLACK_WEBHOOK_ADDRESS": "<YOUR_WEBHOOK_ADDRESS>",
-    "SLACK_WEBHOOK_ADDRESS2": "<OPTIONAL_WEBHOOK_ADDRESS>",
-    "SLACK_WEBHOOK_ADDRESS3": "<OPTIONAL_WEBHOOK_ADDRESS>",
+    "WERDINO_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
+    "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
     "GOOGLE_APPLICATION_CREDENTIALS": "google-cloud-creds.json"
 }
 
 ```
+
 3. Download and save your Google API credential file and save it with the filename of `google-cloud-creds.json` at the root of this directory. Make sure the credentials in the file are allowed to access the Google Translate API.
 
 ### Deploy to AWS Lambda

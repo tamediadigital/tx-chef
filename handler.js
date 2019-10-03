@@ -2,58 +2,65 @@ const fetch = require('fetch-everywhere');
 const messageBuilder = require('./helpers/messageBuilder');
 const noDataTodayMessage = require('./helpers/noDataTodayMessage');
 const devConfig = require('./config/config.dev.json');
-const getWerdinoData = require('.');
+const getMenuData = require('.');
 
-const getWebhookAddresses = () => {
-	const addresses = [
-		process.env.SLACK_WEBHOOK_ADDRESS,
-		process.env.SLACK_WEBHOOK_ADDRESS2,
-		process.env.SLACK_WEBHOOK_ADDRESS3,
-	].filter(a => {
-		return a && typeof a === 'string' && a.includes('http');
-	});
+const httpsArrayOnly = array => array.filter(a => a && typeof a === 'string' && a.includes('https'));
 
-	if (addresses.length === 0) {
-		return [devConfig.SLACK_WEBHOOK_ADDRESS];
-	}
+const WERDINO_WEBHOOK_ADDRESSES = process.env.WERDINO_WEBHOOK_ADDRESSES || devConfig.WERDINO_WEBHOOK_ADDRESSES;
+const BUBENBERG_WEBHOOK_ADDRESSES = process.env.BUBENBERG_WEBHOOK_ADDRESSES || devConfig.BUBENBERG_WEBHOOK_ADDRESSES;
 
-	return addresses;
+const ENVIORNMENT_DATA = {
+	WERDINO: {
+		NAME: 'Werdino',
+		URL: 'https://clients.eurest.ch/de/tamediazuerich/menu',
+		WEBHOOKS: httpsArrayOnly(WERDINO_WEBHOOK_ADDRESSES.split(',')),
+	},
+	BUBENBERG: {
+		NAME: 'Bubenberg',
+		URL: 'https://clients.eurest.ch/dzz/de/Bubenberg',
+		WEBHOOKS: httpsArrayOnly(BUBENBERG_WEBHOOK_ADDRESSES.split(',')),
+	},
 };
 
 function runWerdino() {
-	getWerdinoData()
-		.then(async data => {
-			let blocks;
+	Object.keys(ENVIORNMENT_DATA).map(key => {
+		const slackTargetData = ENVIORNMENT_DATA[key];
+		const { URL, WEBHOOKS, NAME } = slackTargetData;
 
-			if (data.error && data.error === 'NO_MENU_DATA_TODAY') {
-				blocks = noDataTodayMessage();
-			} else {
-				blocks = messageBuilder(data);
-			}
+		getMenuData(URL)
+			.then(async data => {
+				let blocks;
 
-			await Promise.all(
-				getWebhookAddresses().map(address => {
-					return new Promise((resolve, reject) => {
-						fetch(address, {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify({ blocks }),
-						})
-							.then(response => {
-								console.log(response.status, response.statusText);
-								resolve();
+				if (data.error && data.error === 'NO_MENU_DATA_TODAY') {
+					blocks = noDataTodayMessage(URL, NAME);
+				} else {
+					blocks = messageBuilder(data, URL, NAME);
+				}
+
+				await Promise.all(
+					WEBHOOKS.map(address => {
+						return new Promise((resolve, reject) => {
+							fetch(address, {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({ blocks }),
 							})
-							.catch(error => {
-								console.log('Error with Slack Webhook:', error);
-								reject();
-							});
-					});
-				})
-			);
-		})
-		.catch(err => console.log(`Error in getWerdinoData: ${err}`));
+								.then(response => {
+									console.log(response.status, response.statusText);
+									resolve();
+								})
+								.catch(error => {
+									console.log('Error with Slack Webhook:', error);
+									reject();
+								});
+						});
+					})
+				);
+			})
+			.catch(err => console.log(`Error in getMenuData: ${err}`));
+	});
 }
 
 module.exports.runWerdino = runWerdino;
