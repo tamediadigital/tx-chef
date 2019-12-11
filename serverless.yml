@@ -1,6 +1,7 @@
 service: info-werdino-lambda
 provider:
   name: aws
+  profile: tamedia
   region: eu-central-1
   runtime: nodejs8.10
   stage: ${opt:stage, 'dev'}

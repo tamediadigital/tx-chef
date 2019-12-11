@@ -37,19 +37,14 @@ function objectify(text) {
 		const obj = {};
 
 		section.split('\n').forEach(s => {
-			const title = TITLE_TOKEN;
-			const price = PRICE_TOKEN;
-			const descr = DESCRIPTION_TOKEN;
-			const mealTitle = MEAL_TITLE_TOKEN;
-
-			if (s.indexOf(title) === 0) {
-				obj.title = s.replace(title, '');
-			} else if (s.indexOf(mealTitle) === 0) {
-				obj.mealTitle = s.replace(mealTitle, '');
-			} else if (s.indexOf(descr) === 0) {
-				obj.description = s.replace(descr, '');
-			} else if (s.indexOf(price) === 0) {
-				obj.price = s.replace(price, '');
+			if (s.indexOf(TITLE_TOKEN) === 0) {
+				obj.title = s.replace(TITLE_TOKEN, '');
+			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
+				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '');
+			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
+				obj.description = s.replace(DESCRIPTION_TOKEN, '');
+			} else if (s.indexOf(PRICE_TOKEN) === 0) {
+				obj.price = s.replace(PRICE_TOKEN, '');
 			}
 		});
 
