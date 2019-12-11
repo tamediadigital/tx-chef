@@ -29,13 +29,9 @@
 ```
 {
     "WERDINO_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
-    "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
-    "GOOGLE_APPLICATION_CREDENTIALS": "google-cloud-creds.json"
+    "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>"
 }
-
 ```
-
-3. Download and save your Google API credential file and save it with the filename of `google-cloud-creds.json` at the root of this directory. Make sure the credentials in the file are allowed to access the Google Translate API.
 
 ### Deploy to AWS Lambda
 

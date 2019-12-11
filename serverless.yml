@@ -1,4 +1,4 @@
-service: werdino-daily-lambda
+service: info-werdino-lambda
 provider:
   name: aws
   region: eu-central-1
