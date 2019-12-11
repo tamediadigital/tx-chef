@@ -71,7 +71,6 @@ const getMenuData = url => {
 
 	return new Promise((resolve, reject) => {
 		werdino(url).then(data => {
-			console.log({data});
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
@@ -101,8 +100,6 @@ const getMenuData = url => {
 
 				translationRequest
 					.on('success', function(response) {
-						console.log('Success!', {response});
-
 						const germanObject = objectify(german);
 
 						if (!response || !response.data || !response.data.TranslatedText) {
