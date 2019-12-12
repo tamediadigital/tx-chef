@@ -1,6 +1,6 @@
 ![](media/hamburger300x300.png)
 
-# Werdino & Bubenberg Daily
+# TX Chef
 
 :pizza: :hamburger: 
 
@@ -8,7 +8,7 @@
 
 :trophy:
 
-> _"Werdino and Bubenberg Daily are the most important Slack Integrations of the 21st century"_   
+> _"TX Chef is the most important Slack Integration of the 21st century"_   
 ~ Chuck Norris, Inventor of Slack, the Internet and the 21st century
 
 ![](media/screenshot.png)
@@ -22,14 +22,18 @@
 ### Getting Started
 
 1. Make sure you have the Serverless framework installed globally: `npm install -g serverless`
-2. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
+2. You should have an AWS profile named `tamedia` with the appropriate permissions to create lambdas via the serverless framework (and use AWS Translate)
+```
+  serverless config credentials --provider aws --key <KEY> --secret <SECRET> --profile tamedia
+```
+3. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
 
 :bulb: **Note:** You can have more than one webhook assigned for Werdino or Bubenberg, you just need to seperate the multiple webhook addresses with a comma
 
 ```
 {
-    "WERDINO_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
-    "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>"
+  "WERDINO_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
+  "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>"
 }
 ```
 
@@ -52,7 +56,7 @@ $ serverless logs --function runWerdino --tail
 
 :bulb: Running locally will apply the `dev` stage by default
 ```
-SLS_DEBUG=* serverless invoke local --function runWerdino
+SLS_DEBUG=* serverless invoke local --function runWerdino --stage dev
 ```
 
 
