@@ -4,7 +4,8 @@
 
 :pizza: :hamburger: 
 
-> The [Werdino daily menu](https://clients.eurest.ch/de/tamediazuerich/menu) and the [Bubenberg daily menu](https://clients.eurest.ch/dzz/de/Bubenberg) in English and German, delivered straight to Slack via AWS Lambda
+> The Daily menus for [Werdino](https://clients.eurest.ch/de/tamediazuerich/menu), [Bubenberg](https://clients.eurest.ch/dzz/de/Bubenberg), [Bern Zentweg](https://www.eurest.ch/dzb), [Bussigny](https://www.eurest.ch/cil), [Le Scoop](https://www.eurest.ch/tamedia-lausanne) and [BKW Atrium](https://bkw-bern.sv-restaurant.ch/de/menuplan) translated to English and delivered straight to Slack via AWS Lambda
+
 
 :trophy:
 
@@ -28,12 +29,16 @@
 ```
 3. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
 
-:bulb: **Note:** You can have more than one webhook assigned for Werdino or Bubenberg, you just need to seperate the multiple webhook addresses with a comma
+:bulb: **Note:** You can have more than one webhook assigned, you just need to seperate the multiple webhook addresses with a comma
 
 ```
 {
-  "WERDINO_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>",
-  "BUBENBERG_WEBHOOK_ADDRESSES": "<COMMA_DELIMITED_WEBHOOK_ADDRESSES>"
+  "WERDINO_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+  "BUBENBERG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+  "BERN_ZENTWEG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+	"BUSSIGNY_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+	"LE_SCOOP_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+	"BKW_ATRIUM_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
 }
 ```
 
