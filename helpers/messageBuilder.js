@@ -8,7 +8,7 @@ const { ISSUES_LINK } = require('../constants');
  * @param {String} title
  */
 const getIconForTitle = title => {
-	const lowerTitle = title.toLowerCase();
+	const lowerTitle = title.toLowerCase().trim();
 	switch (lowerTitle) {
 		case 'brasserie':
 			return ':meat_on_bone:';
@@ -39,19 +39,11 @@ const getDescription = str => {
  * Build a block for Slack using the supplied language data
  * @param {Object} obj
  */
-const sectionBuilder = obj => {
+const sectionBuilder = (obj, sourceLangauge) => {
 	const section = [
-		{
-			type: 'section',
-			text: {
-				type: 'mrkdwn',
-				text: `${getIconForTitle(obj.title)} *${obj.titleEn}*`,
-			},
-		},
 		{
 			type: 'divider',
 		},
-
 		{
 			type: 'section',
 			fields: [
@@ -61,7 +53,7 @@ const sectionBuilder = obj => {
 				},
 				{
 					type: 'mrkdwn',
-					text: `\`DE\` *${obj.mealTitle}*\n${getDescription(obj.description)}`,
+					text: `\`${sourceLangauge.toUpperCase()}\` *${obj.mealTitle}*\n${getDescription(obj.description)}`,
 				},
 			],
 		},
@@ -84,8 +76,9 @@ const sectionBuilder = obj => {
  * @param {Object} obj
  * @param {String} url
  * @param {String} name
+ * @param {String} sourceLangauge
  */
-function messageBuilder(obj, url, name) {
+function messageBuilder(obj, url, name, sourceLangauge) {
 	// Blocks starts off with Header only
 	let blocks = [
 		{
@@ -99,7 +92,16 @@ function messageBuilder(obj, url, name) {
 
 	// Now add in each section with the menu information for the day
 	obj.forEach(o => {
-		blocks = blocks.concat([...sectionBuilder(o)]);
+		if (url.includes('eurest')) {
+			blocks.push({
+				type: 'section',
+				text: {
+					type: 'mrkdwn',
+					text: `${getIconForTitle(o.title)} *${o.titleEn}*`,
+				},
+			})
+		}
+		blocks = blocks.concat([...sectionBuilder(o, sourceLangauge)]);
 	});
 
 	// Now attach the footer

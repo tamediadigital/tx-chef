@@ -3,6 +3,7 @@ const condense = require('condense-whitespace');
 const getDayKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
 const werdino = require('./helpers/werdino');
+const atrium = require('./helpers/bkw-atrium');
 const todaysItemKey = getDayKey();
 
 // Use these special tokens to add some semantics to the data we scrape from 
@@ -58,15 +59,18 @@ function objectify(text) {
 /**
  * Get an object containing the scraped menu data from the supplied url
  * @param {String} url
+ * @param {String} sourceLanguage
  * @returns {Object}
  */
-const getMenuData = url => {
+const getMenuData = (url, sourceLanguage) => {
 	// Here we will store the German text with special delimeters.
 	let german = '';
 
 	return new Promise((resolve, reject) => {
-		werdino(url).then(data => {
-			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
+		const scapePage = url.includes('eurest') ? werdino : atrium;
+
+		scapePage(url).then(data => {
+			if (!weHaveMenuDataForToday(data)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
 				Object.keys(data.meals).forEach(category => {
@@ -88,7 +92,7 @@ const getMenuData = url => {
 				});
 
 				const translationRequest = translate.translateText({
-					SourceLanguageCode: 'de',
+					SourceLanguageCode: sourceLanguage,
 					TargetLanguageCode: 'en',
 					Text: german,
 				});

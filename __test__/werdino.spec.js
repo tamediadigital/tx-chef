@@ -1,5 +1,7 @@
 const fn = require('../helpers/werdino.js');
 
+jest.mock('axios');
+
 test('exports a promise with menu data', () => {
   expect.assertions(2);
   return fn().then(data => {
