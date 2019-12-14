@@ -2,7 +2,7 @@
 
 # TX Chef
 
-https://github.com/tamediadigital/tx-chef/workflows/CI/badge.svg
+![](https://github.com/tamediadigital/tx-chef/workflows/CI/badge.svg)
 
 :pizza: :hamburger: 
 
