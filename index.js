@@ -62,8 +62,8 @@ function objectify(text) {
  * @returns {Object}
  */
 const getMenuData = (url, sourceLanguage) => {
-	// Here we will store the German text with special delimeters.
-	let german = '';
+	// Here we will store the orignal text with special delimeters.
+	let originalText = '';
 
 	return new Promise((resolve, reject) => {
 		const scapePage = url.includes('eurest') ? eurest : atrium;
@@ -77,30 +77,30 @@ const getMenuData = (url, sourceLanguage) => {
 				Object.keys(data.meals).forEach(category => {
 					const item = data.meals[category];
 
-					german += `${TITLE_TOKEN} ${condense(category)}\n`;
+					originalText += `${TITLE_TOKEN} ${condense(category)}\n`;
 
 					const mealTitle = condense(item.title);
 					const mealDescription = condense(item.description || '');
 
-					german += `${MEAL_TITLE_TOKEN} ${mealTitle}\n`;
+					originalText += `${MEAL_TITLE_TOKEN} ${mealTitle}\n`;
 
 					if (mealDescription) {
-						german += `${DESCRIPTION_TOKEN} ${mealDescription}\n`;
+						originalText += `${DESCRIPTION_TOKEN} ${mealDescription}\n`;
 					}
 
-					german += `${PRICE_TOKEN} ${item.prices.map(s => condense(s)).join(' | ')}\n`;
-					german += SEPERATOR;
+					originalText += `${PRICE_TOKEN} ${item.prices.map(s => condense(s)).join(' | ')}\n`;
+					originalText += SEPERATOR;
 				});
 
 				const translationRequest = translate.translateText({
 					SourceLanguageCode: sourceLanguage,
 					TargetLanguageCode: 'en',
-					Text: german,
+					Text: originalText,
 				});
 
 				translationRequest
 					.on('success', function(response) {
-						const germanObject = objectify(german);
+						const originalTextObject = objectify(originalText);
 
 						if (!response || !response.data || !response.data.TranslatedText) {
 							reject(new Error('Unknown translation error occured'));
@@ -109,21 +109,22 @@ const getMenuData = (url, sourceLanguage) => {
 
 						const englishObject = objectify(response.data.TranslatedText);
 
-						// Merge the english translations with the German to make the block building easier
+						// Merge the english translations with the original language
+						//  to make the block building easier
 						englishObject.forEach((obj, index) => {
 							if (obj.title) {
-								germanObject[index].titleEn = obj.title;
+								originalTextObject[index].titleEn = obj.title;
 							}
 							if (obj.mealTitle) {
-								germanObject[index].mealTitleEn = obj.mealTitle;
+								originalTextObject[index].mealTitleEn = obj.mealTitle;
 							}
 							if (obj.description) {
-								germanObject[index].descriptionEn = obj.description;
+								originalTextObject[index].descriptionEn = obj.description;
 							}
 						});
 
-						console.log(`Cost: ${german.length} characters * ${COST_PER_CHARACTER}/per char = ${german.length * COST_PER_CHARACTER} USD`);
-						resolve(germanObject);
+						console.log(`Cost: ${originalText.length} characters * ${COST_PER_CHARACTER}/per char = ${originalText.length * COST_PER_CHARACTER} USD`);
+						resolve(originalTextObject);
 					})
 					.on('error', function(error, response) {
 						console.log('Error!');
