@@ -1,7 +1,7 @@
 const fetch = require('fetch-everywhere');
 const messageBuilder = require('./helpers/messageBuilder');
 const noDataTodayMessage = require('./helpers/noDataTodayMessage');
-const devConfig = require('./config/config.dev.json');
+const devConfig = require('./config/config.dev.json'); // eslint-disable-line import/no-unresolved
 const getMenuData = require('.');
 
 /**
