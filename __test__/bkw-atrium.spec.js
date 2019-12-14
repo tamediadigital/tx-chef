@@ -5,7 +5,6 @@ jest.mock('axios');
 test('exports a promise with menu data', () => {
   expect.assertions(2);
   return fn('bkw-atrium').then(data => {
-    console.log({data});
     expect(data.date).toBe('13.12.');
     expect(Object.keys(data.meals)).toMatchObject([
       'Herzlichen Dank',
@@ -19,8 +18,6 @@ test('exports a promise with menu data', () => {
 test('menu data', () => {
   expect.assertions(10);
   return fn('bkw-atrium').then(data => {
-    console.log(JSON.stringify(data, null, 2));
-
     const bmeal = data.meals['Herzlichen Dank'];
 
     expect(bmeal.title).toBe('Herzlichen Dank');
@@ -40,9 +37,12 @@ test('menu data', () => {
 });
 
 test('find the vegetarian label', () => {
-  expect.assertions(1);
+  expect.assertions(2);
   return fn('bkw-atrium').then(data => {
     const vmeal = data.meals['Paniertes Tofuschnitzel'];
     expect(vmeal.vegetarian).toBe(true);
+
+    const bmeal = data.meals['Herzlichen Dank'];
+    expect(bmeal.vegetarian).toBe(false);
   });
 });
