@@ -1,10 +1,9 @@
 const AWS = require('aws-sdk');
 const condense = require('condense-whitespace');
-const getDayKey = require('./helpers/getDayKey');
+const getTodaysDateKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
 const werdino = require('./helpers/werdino');
 const atrium = require('./helpers/bkw-atrium');
-const todaysItemKey = getDayKey();
 
 // Use these special tokens to add some semantics to the data we scrape from 
 // the webpages. This will allow us to send a single string to the translate API
@@ -70,7 +69,9 @@ const getMenuData = (url, sourceLanguage) => {
 		const scapePage = url.includes('eurest') ? werdino : atrium;
 
 		scapePage(url).then(data => {
-			if (!weHaveMenuDataForToday(data)) {
+			const todaysItemKey = getTodaysDateKey();
+
+			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
 				Object.keys(data.meals).forEach(category => {

@@ -17,7 +17,8 @@ const getMenu = $ => {
     const $menuSection = $(menuSection);
 
     // Cheerio doesn't know anything about visible elements,
-    // so we should only grab the first four elements
+    // so we should only grab the first four elements because 
+    // that is what is visible by default on the Atrium menu page
     if (i > 3) {
         return;
     }

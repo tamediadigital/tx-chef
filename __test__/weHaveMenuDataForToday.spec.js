@@ -1,25 +1,68 @@
 const fn = require('../helpers/weHaveMenuDataForToday');
 
+const FRIDAY = '13-12-2019';
+const SATURDAY = '14-12-2019';
+
 describe('weHaveMenuDataForToday', () => {
-	test('should return false for days without menu items', () => {
-		const fixture = {
-			date: '1234',
-			meals: {},
-		};
-
-		expect(fn(fixture)).toBe(false);
-	});
-
-	test('should return false for days without a valid date', () => {
+	test('returns false for days without meal items', () => {
 		const fixture = {
 			date: '',
 			meals: {},
 		};
 
-		expect(fn(fixture)).toBe(false);
+		expect(fn(fixture, FRIDAY)).toBe(false);
 	});
 
-	test('weHaveMenuDataForToday returns true for valid days', () => {
-		expect(fn({ date: '12-34-56', meals: { foo: {} } })).toBe(true);
+	test('returns false for 0-length date strings', () => {
+		const fixture = {
+			date: '',
+			meals: {},
+		};
+
+		expect(fn(fixture, FRIDAY)).toBe(false);
+	});
+
+	test('returns true for valid days in the XX-XX-XXXX format', () => {
+		const fixture = {
+			date: FRIDAY,
+			meals: { 
+				foo: {} 
+			}
+		};
+
+		expect(fn(fixture, FRIDAY)).toBe(true);
+	});	
+	
+	test('returns false for invalid days in the XX-XX-XXXX format', () => {
+		const fixture = {
+			date: FRIDAY,
+			meals: { 
+				foo: {} 
+			}
+		};
+
+		expect(fn(fixture, SATURDAY)).toBe(false);
+	});	
+	
+	test('returns true for valid days in XX.XX. format', () => {
+		const fixture = {
+			date: '13.12.',
+			meals: { 
+				foo: {} 
+			}
+		};
+
+		expect(fn(fixture, '13.12.')).toBe(true);
+	});	
+	
+	test('returns false for invalid days in the XX.XX. format', () => {
+		const fixture = {
+			date: '13.12.',
+			meals: { 
+				foo: {} 
+			}
+		};
+
+		expect(fn(fixture, '14.12.')).toBe(false);
 	});
 });
