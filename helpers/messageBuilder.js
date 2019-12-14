@@ -1,4 +1,3 @@
-'use strict';
 const superb = require('superb');
 const getTodaysDate = require('./getTodaysDate');
 const { ISSUES_LINK } = require('../constants');
@@ -62,8 +61,7 @@ const sectionBuilder = (obj, sourceLangauge) => {
 			elements: [
 				{
 					type: 'mrkdwn',
-					text: `${obj.price}\n \n`,
-				},
+					text: `${obj.price}\n\n`},
 			],
 		},
 	];
@@ -85,7 +83,7 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 			type: 'section',
 			text: {
 				type: 'mrkdwn',
-				text: `${name} menu for *${getTodaysDate()}*\n \n`,
+				text: `${name} menu for *${getTodaysDate()}*\n\n`,
 			},
 		},
 	];
@@ -99,7 +97,7 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 					type: 'mrkdwn',
 					text: `${getIconForTitle(o.title)} *${o.titleEn}*`,
 				},
-			})
+			});
 		}
 		blocks = blocks.concat([...sectionBuilder(o, sourceLangauge)]);
 	});
@@ -116,13 +114,13 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 	});
 
 	// Now let's add a green note
-	blocks.push({type: 'divider'});
+	blocks.push({ type: 'divider' });
 	blocks.push({
 		type: 'section',
 		text: {
 			type: 'mrkdwn',
-			text: `:earth_asia: :green_heart: *Remember*: Using ${name}'s washable dishes and cutlery is more eco-friendly.`
-		}
+			text: `:earth_asia: :green_heart: *Remember*: Using ${name}'s washable dishes and cutlery is more eco-friendly.`,
+		},
 	});
 
 	return blocks;

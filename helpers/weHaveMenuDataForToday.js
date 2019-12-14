@@ -8,7 +8,7 @@
  * @returns {String}
  */
 function clean(dateString) {
-	if (!typeof dateString === 'string') {
+	if (typeof dateString !== 'string') {
 		return '';
 	}
 	return dateString.replace(/\.|-/gm, '').trim();
@@ -16,7 +16,7 @@ function clean(dateString) {
 
 /**
  * Validate that we have menu data for the given date key.
- * 
+ *
  * @param {Object} menuData - the scraped data from the website in object form
  * @param {String} todaysDate - today's date in the form of XX-XX-XXXX
  * @returns {Boolean}

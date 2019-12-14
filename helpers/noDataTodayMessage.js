@@ -1,10 +1,9 @@
-'use strict';
 const superb = require('superb');
 const getTodaysDate = require('./getTodaysDate');
 const { ISSUES_LINK } = require('../constants');
 
 function noDataTodayMessage(url, name) {
-	let blocks = [
+	const blocks = [
 		{
 			type: 'section',
 			text: {

@@ -25,42 +25,42 @@ describe('weHaveMenuDataForToday', () => {
 	test('returns true for valid days in the XX-XX-XXXX format', () => {
 		const fixture = {
 			date: FRIDAY,
-			meals: { 
-				foo: {} 
-			}
+			meals: {
+				foo: {},
+			},
 		};
 
 		expect(fn(fixture, FRIDAY)).toBe(true);
-	});	
-	
+	});
+
 	test('returns false for invalid days in the XX-XX-XXXX format', () => {
 		const fixture = {
 			date: FRIDAY,
-			meals: { 
-				foo: {} 
-			}
+			meals: {
+				foo: {},
+			},
 		};
 
 		expect(fn(fixture, SATURDAY)).toBe(false);
-	});	
-	
+	});
+
 	test('returns true for valid days in XX.XX. format', () => {
 		const fixture = {
 			date: '13.12.',
-			meals: { 
-				foo: {} 
-			}
+			meals: {
+				foo: {},
+			},
 		};
 
 		expect(fn(fixture, '13.12.')).toBe(true);
-	});	
-	
+	});
+
 	test('returns false for invalid days in the XX.XX. format', () => {
 		const fixture = {
 			date: '13.12.',
-			meals: { 
-				foo: {} 
-			}
+			meals: {
+				foo: {},
+			},
 		};
 
 		expect(fn(fixture, '14.12.')).toBe(false);

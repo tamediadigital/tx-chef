@@ -28,7 +28,9 @@ test('menu data', () => {
     const gmeal = data.meals['Ghackets und Hörnli'];
 
     expect(gmeal.title).toBe('Ghackets und Hörnli');
-    expect(gmeal.description).toBe('mit Rindfleischsauce, Reibkäse und Apfelmus oder Menusalat Add on: gebackene Zwiebelringe CHF 2.00');
+    expect(gmeal.description).toBe(
+      'mit Rindfleischsauce, Reibkäse und Apfelmus oder Menusalat Add on: gebackene Zwiebelringe CHF 2.00'
+    );
     expect(Array.isArray(gmeal.prices)).toBe(true);
     expect(gmeal.prices[0]).toBe('9.50 CHF');
     expect(gmeal.prices[1]).toBe('13.50 CHF');
