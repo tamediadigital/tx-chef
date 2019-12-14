@@ -1,4 +1,4 @@
-const fn = require('../helpers/werdino.js');
+const fn = require('../helpers/eurest');
 
 jest.mock('axios');
 

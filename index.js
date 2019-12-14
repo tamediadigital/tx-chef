@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const condense = require('condense-whitespace');
 const getTodaysDateKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
-const werdino = require('./helpers/werdino');
+const eurest = require('./helpers/eurest');
 const atrium = require('./helpers/bkw-atrium');
 
 // Use these special tokens to add some semantics to the data we scrape from 
@@ -66,7 +66,7 @@ const getMenuData = (url, sourceLanguage) => {
 	let german = '';
 
 	return new Promise((resolve, reject) => {
-		const scapePage = url.includes('eurest') ? werdino : atrium;
+		const scapePage = url.includes('eurest') ? eurest : atrium;
 
 		scapePage(url).then(data => {
 			const todaysItemKey = getTodaysDateKey();

@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 /**
- * Get Werdino daily menu
+ * Get the daily menu details from a Eurest page
  */
 const getMenu = $ => {
   const day = {
