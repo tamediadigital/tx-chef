@@ -2,9 +2,7 @@
 
 # TX Chef
 
-https://github.com/tamediadigital/tx-chef/workflows/build/badge.svg
-
-:pizza: :hamburger: 
+![](https://github.com/tamediadigital/tx-chef/workflows/build/badge.svg) :pizza: :hamburger: 
 
 > The Daily menus for [Werdino](https://clients.eurest.ch/de/tamediazuerich/menu), [Bubenberg](https://clients.eurest.ch/dzz/de/Bubenberg), [Bern Zentweg](https://www.eurest.ch/dzb), [Bussigny](https://www.eurest.ch/cil), [Le Scoop](https://www.eurest.ch/tamedia-lausanne) and [BKW Atrium](https://bkw-bern.sv-restaurant.ch/de/menuplan) translated to English and delivered straight to Slack via AWS Lambda
 
