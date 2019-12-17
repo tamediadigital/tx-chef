@@ -35,10 +35,10 @@
 {
   "WERDINO_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
   "BUBENBERG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-  "BERN_ZENTWEG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-	"BUSSIGNY_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-	"LE_SCOOP_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-	"BKW_ATRIUM_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
+  "BERN_ZENTWEG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
+  "BUSSIGNY_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
+  "LE_SCOOP_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
+  "BKW_ATRIUM_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
 }
 ```
 
