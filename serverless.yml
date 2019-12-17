@@ -3,7 +3,7 @@ provider:
   name: aws
   profile: tamedia
   region: us-east-2
-  runtime: nodejs8.10
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
 functions:

@@ -54,14 +54,14 @@ $ serverless deploy --stage prod
 ### Reading the Logs
 
 ```
-$ serverless logs --function runWerdino --tail
+$ serverless logs --function run --tail
 ```
 
 ### Deploy the Function Locally for Testing
 
 :bulb: Running locally will apply the `dev` stage by default
 ```
-SLS_DEBUG=* serverless invoke local --function runWerdino --stage dev
+SLS_DEBUG=* serverless invoke local --function run --stage dev
 ```
 
 
