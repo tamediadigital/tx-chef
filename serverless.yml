@@ -8,7 +8,7 @@ provider:
   role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
 functions:
   runWerdino:
-    handler: handler.runWerdino
+    handler: handler.run
     environment:
       WERDINO_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):WERDINO_WEBHOOK_ADDRESSES}
       BUBENBERG_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BUBENBERG_WEBHOOK_ADDRESSES}

@@ -62,7 +62,7 @@ const ENVIORNMENT_DATA = {
 	},
 };
 
-function runWerdino() {
+function run() {
 	Object.keys(ENVIORNMENT_DATA).forEach(function(key) {
 		const slackTargetData = ENVIORNMENT_DATA[key];
 		const { URL, WEBHOOKS, NAME, SOURCE_LANGUAGE } = slackTargetData;
@@ -106,4 +106,4 @@ function runWerdino() {
 	});
 }
 
-module.exports.runWerdino = runWerdino;
+module.exports.run = run;
