@@ -16,8 +16,8 @@
 		"test": "npm run lint && jest",
 		"deploy:dev": "npm run test && serverless deploy -v --stage dev",
 		"deploy:prod": "npm run test && serverless deploy -v --stage prod",
-		"logs": "serverless logs --function runWerdino --tail",
-		"invoke:local": "SLS_DEBUG=* serverless invoke local --function runWerdino",
+		"logs": "serverless logs --function run --tail",
+		"invoke:local": "SLS_DEBUG=* serverless invoke local --function run",
 		"lint": "eslint . --ignore-path .gitignore --ext .js",
 		"fix": "eslint . --ext .js --fix"
 	},
