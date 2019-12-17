@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node: [8]
+        node: [12]
         os: [macOS-latest]
 
     steps:
