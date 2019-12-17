@@ -2,11 +2,12 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 /**
- * Get Werdino daily menu
+ * Get the daily menu details from a Eurest page
  */
 const getMenu = $ => {
   const day = {
-    date: $('.date').first()
+    date: $('.date')
+      .first()
       .text()
       .trim(),
     meals: {},
@@ -30,19 +31,18 @@ const getMenu = $ => {
       .trim();
 
     day.meals[category].description =
-      $menuSection
-        .find('.wide p')
-        .text()
-        .trim() || null;
+			$menuSection
+      .find('.wide p')
+      .text()
+				.trim() || null;
 
     day.meals[category].prices = $menuSection
       .find('.price-wrapper p')
-      .map((i, el) =>
-        $(el)
-          .text()
-          .trim()
-          .replace('Extern', 'CHF')
-      )
+      .map((index, el) =>
+				$(el)
+        .text()
+        .trim()
+        .replace('Extern', 'CHF'))
       .get();
   });
 
@@ -53,8 +53,8 @@ const getMenu = $ => {
  * Export promise
  */
 module.exports = url =>
-  axios.get(url).then(res => {
-    const { data } = res;
+	axios.get(url).then(res => {
+  const { data } = res;
 
-    return getMenu(cheerio.load(data));
-  });
+  return getMenu(cheerio.load(data));
+});

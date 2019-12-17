@@ -1,9 +1,9 @@
 {
-	"name": "werdino-daily-slack",
-	"version": "2.0.0",
-	"description": "The Werdino daily menu in English and German, delivered straight to Slack via AWS Lambda",
+	"name": "tx-chef",
+	"version": "3.0.0",
+	"description": "Tamedia daily menus in English and German, delivered straight to Slack via AWS Lambda",
 	"license": "MIT",
-	"repository": "https://github.com/radiovisual/werdino-daily-slack",
+	"repository": "https://github.com/tamediadigital/tx-chef",
 	"author": {
 		"name": "Michael Wuergler",
 		"email": "wuergler@gmail.com",
@@ -13,11 +13,13 @@
 		"node": ">=8"
 	},
 	"scripts": {
-		"test": "jest",
+		"test": "npm run lint && jest",
 		"deploy:dev": "npm run test && serverless deploy -v --stage dev",
 		"deploy:prod": "npm run test && serverless deploy -v --stage prod",
-		"logs": "serverless logs --function runWerdino --tail",
-		"invoke:local": "SLS_DEBUG=* serverless invoke local --function runWerdino"
+		"logs": "serverless logs --function run --tail",
+		"invoke:local": "SLS_DEBUG=* serverless invoke local --function run",
+		"lint": "eslint . --ignore-path .gitignore --ext .js",
+		"fix": "eslint . --ext .js --fix"
 	},
 	"files": [
 		"index.js",
@@ -27,6 +29,7 @@
 	],
 	"keywords": [
 		"werdino",
+		"tamedia",
 		"english",
 		"german",
 		"serverless",
@@ -42,6 +45,24 @@
 		"superb": "^3.0.0"
 	},
 	"devDependencies": {
-		"jest": "^24.5.0"
+		"eslint": "6.3.0",
+		"eslint-config-airbnb": "18.0.1",
+		"eslint-config-airbnb-base": "^14.0.0",
+		"eslint-config-prettier": "6.2.0",
+		"eslint-plugin-import": "2.18.2",
+		"eslint-plugin-jest": "22.16.0",
+		"eslint-plugin-jsx-a11y": "^6.2.3",
+		"eslint-plugin-prettier": "3.1.0",
+		"eslint-plugin-react": "^7.17.0",
+		"husky": "^3.1.0",
+		"jest": "^24.5.0",
+		"prettier": "^1.18.2",
+		"prettier-eslint": "^9.0.1"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run lint",
+			"pre-push": "npm run test"
+		}
 	}
 }

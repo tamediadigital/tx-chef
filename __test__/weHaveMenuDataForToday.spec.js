@@ -1,58 +1,68 @@
 const fn = require('../helpers/weHaveMenuDataForToday');
 
-const fixture = {
-  "date": "04.07.19",
-  "meals": {
-    "Brasserie": {
-      "title": "Ceasar Salat mit Speckwürfeli",
-      "description": "(Schweiz) garniert mit Chicken Nuggets (Schweiz) und Croutons",
-      "prices": [
-        "CHF 9,50",
-        "CHF 13,50"
-      ]
-    },
-    "Grün und natürlich": {
-      "title": "Griechische Gemüsepfanne",
-      "description": "mit Feta, Ofenkartoffel mit Tzatzikisauce und Rotkabissalat",
-      "prices": [
-        "CHF 9,50",
-        "CHF 13,50"
-      ]
-    },
-    "Feuer und Flamme": {
-      "title": "Grillierte Jacobsmuscheln (USA)",
-      "description": "nach Grenobler Art mit warmem Antipastigemüse und Pommes Frites",
-      "prices": [
-        "CHF 22,00",
-        "CHF 26,00"
-      ]
-    },
-    "Tagessuppe": {
-      "title": "Fischsuppe a la Bouillabaisse",
-      "description": null,
-      "prices": [
-        "CHF 1,40",
-        "CHF 1,70"
-      ]
-    },
-    "Buddha Bowl": {
-      "title": "Fresh California Bowl",
-      "description": null,
-      "prices": [
-        "CHF 12,50",
-        "CHF 16,50"
-      ]
-    }
-  }
-};
+const FRIDAY = '13-12-2019';
+const SATURDAY = '14-12-2019';
 
-  test('weHaveMenuDataForToday returns false on a weekend', () => {
-    const sat = '06.07.19';
-    const sun = '07.07.19';
-    expect(fn(fixture, sat)).toBe(false);
-    expect(fn(fixture, sun)).toBe(false);
-  });
+describe('weHaveMenuDataForToday', () => {
+	test('returns false for days without meal items', () => {
+		const fixture = {
+			date: '',
+			meals: {},
+		};
 
-  test('weHaveMenuDataForToday returns true for valid days', () => {
-    expect(fn(fixture, '04.07.19')).toBe(true);
-  });
+		expect(fn(fixture, FRIDAY)).toBe(false);
+	});
+
+	test('returns false for 0-length date strings', () => {
+		const fixture = {
+			date: '',
+			meals: {},
+		};
+
+		expect(fn(fixture, FRIDAY)).toBe(false);
+	});
+
+	test('returns true for valid days in the XX-XX-XXXX format', () => {
+		const fixture = {
+			date: FRIDAY,
+			meals: {
+				foo: {},
+			},
+		};
+
+		expect(fn(fixture, FRIDAY)).toBe(true);
+	});
+
+	test('returns false for invalid days in the XX-XX-XXXX format', () => {
+		const fixture = {
+			date: FRIDAY,
+			meals: {
+				foo: {},
+			},
+		};
+
+		expect(fn(fixture, SATURDAY)).toBe(false);
+	});
+
+	test('returns true for valid days in XX.XX. format', () => {
+		const fixture = {
+			date: '13.12.',
+			meals: {
+				foo: {},
+			},
+		};
+
+		expect(fn(fixture, '13.12.')).toBe(true);
+	});
+
+	test('returns false for invalid days in the XX.XX. format', () => {
+		const fixture = {
+			date: '13.12.',
+			meals: {
+				foo: {},
+			},
+		};
+
+		expect(fn(fixture, '14.12.')).toBe(false);
+	});
+});

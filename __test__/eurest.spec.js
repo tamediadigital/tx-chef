@@ -1,4 +1,6 @@
-const fn = require('../helpers/werdino.js');
+const fn = require('../helpers/eurest');
+
+jest.mock('axios');
 
 test('exports a promise with menu data', () => {
   expect.assertions(2);
@@ -16,8 +18,6 @@ test('exports a promise with menu data', () => {
 test('menu data', () => {
   expect.assertions(9);
   return fn().then(data => {
-    console.log(JSON.stringify(data, null, 2));
-
     // Brasserie
     const bmeal = data.meals.Brasserie;
 

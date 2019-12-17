@@ -1,18 +1,21 @@
-service: tx-chef-lambda
+service: tx-chef
 provider:
   name: aws
   profile: tamedia
-  region: us-east-2
-  runtime: nodejs8.10
+  region: eu-central-1
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'}
   role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
 functions:
-  runWerdino:
-    handler: handler.runWerdino
+  run:
+    handler: handler.run
     environment:
       WERDINO_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):WERDINO_WEBHOOK_ADDRESSES}
       BUBENBERG_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BUBENBERG_WEBHOOK_ADDRESSES}
-      GOOGLE_APPLICATION_CREDENTIALS: ${file(./config/config.${self:provider.stage, }.json):GOOGLE_APPLICATION_CREDENTIALS}
+      BERN_ZENTWEG_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BERN_ZENTWEG_WEBHOOK_ADDRESSES}
+      BUSSIGNY_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BUSSIGNY_WEBHOOK_ADDRESSES}
+      LE_SCOOP_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):LE_SCOOP_WEBHOOK_ADDRESSES}
+      BKW_ATRIUM_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BKW_ATRIUM_WEBHOOK_ADDRESSES}
     events:
     - schedule:
         rate: cron(0 5 ? * MON-FRI *)
