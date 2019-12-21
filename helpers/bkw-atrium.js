@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const condense = require('condense-whitespace');
@@ -76,5 +78,9 @@ module.exports = url =>
 	axios.get(url).then(res => {
 		const { data } = res;
 
+		if (process.env.DEBUG_ATRIUM) {
+			const atriumData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/bkw-atrium.html'), 'utf8');
+			return getMenu(cheerio.load(atriumData));
+		  }
 		return getMenu(cheerio.load(data));
 	});

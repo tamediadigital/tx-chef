@@ -24,6 +24,10 @@ function clean(dateString) {
 function weHaveMenuDataForToday(menuData, todaysDate) {
 	const { date, meals } = menuData;
 
+	if (process.env.DEBUG_EUREST || process.env.DEBUG_ATRIUM) {
+		return true;
+	}
+
 	const convertedDate = clean(date);
 	const convertedTodaysDate = clean(todaysDate);
 

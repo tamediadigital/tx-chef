@@ -10,12 +10,7 @@ const atrium = require('./helpers/bkw-atrium');
 // (which saves time and cost) and give us a way to parse / grep the values out of
 // the string later on (like when we want to build a data object from the scraped
 // and translated values).
-const TITLE_TOKEN = '[TT] ';
-const PRICE_TOKEN = '[PT] ';
-const DESCRIPTION_TOKEN = '[DT] ';
-const MEAL_TITLE_TOKEN = '[MT] ';
-const ID_TOKEN = '[IT] ';
-const SEPERATOR = '🦄\n';
+const { TITLE_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
 
 // Cost per character via AWS Translate
 // https://aws.amazon.com/translate/pricing/
@@ -24,13 +19,15 @@ const COST_PER_CHAR = 0.000015;
 // Creates a client
 const translate = new AWS.Translate({ apiVersion: '2017-07-01' });
 
+const { DEBUG_ATRIUM, DEBUG_EUREST } = process.env;
+
 /**
  * Build a data object from a string with special delimeters.
  * @param {String} text
  * @returns {Object}
  */
 function objectify(text) {
-	const parts = text.split(SEPERATOR);
+	const parts = text.split(SEPERATOR).map(v => v.trim());
 
 	const meals = [];
 
@@ -80,20 +77,20 @@ const getMenuData = (url, sourceLanguage) => {
 				Object.keys(data.meals).forEach(category => {
 					const item = data.meals[category];
 
-					originalText += `${TITLE_TOKEN}${condense(category)}\n`;
+					originalText += `${TITLE_TOKEN} ${condense(category)}\n`;
 
 					const mealTitle = condense(item.title);
 					const mealDescription = condense(item.description || '');
 
-					originalText += `${MEAL_TITLE_TOKEN}${mealTitle}\n`;
+					originalText += `${MEAL_TITLE_TOKEN} ${mealTitle}\n`;
 
 					if (mealDescription) {
-						originalText += `${DESCRIPTION_TOKEN}${mealDescription}\n`;
+						originalText += `${DESCRIPTION_TOKEN} ${mealDescription}\n`;
 					}
 
-					originalText += `${ID_TOKEN}${condense(item.id)}\n`;
-					originalText += `${PRICE_TOKEN}${item.prices.map(s => condense(s)).join(' | ')}\n`;
-					originalText += SEPERATOR;
+					originalText += `${ID_TOKEN} ${condense(item.id)}\n`;
+					originalText += `${PRICE_TOKEN} ${item.prices.map(s => condense(s)).join(' | ')}\n`;
+					originalText += `${SEPERATOR}\n`;
 				});
 
 				const translationRequest = translate.translateText({
@@ -111,6 +108,13 @@ const getMenuData = (url, sourceLanguage) => {
 					}
 
 					const englishObject = objectify(response.data.TranslatedText);
+
+					if (DEBUG_ATRIUM || DEBUG_EUREST) {
+						console.log(originalText, '\n');
+						console.log(response.data.TranslatedText, '\n');
+						console.log({originalTextObject});
+						console.log({englishObject});
+					};
 
 					// Merge the english translations with the original language
 					// to make the block building easier

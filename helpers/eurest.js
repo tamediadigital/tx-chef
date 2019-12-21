@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -58,5 +60,9 @@ module.exports = url =>
 	axios.get(url).then(res => {
   const { data } = res;
 
+  if (process.env.DEBUG_EUREST) {
+    const werdinoData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/werdino.html'), 'utf8');
+    return getMenu(cheerio.load(werdinoData));
+  }
   return getMenu(cheerio.load(data));
 });
