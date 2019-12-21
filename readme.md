@@ -64,4 +64,11 @@ $ serverless logs --function run --tail
 SLS_DEBUG=* serverless invoke local --function run --stage dev
 ```
 
+### Debugging
+
+It is sometimes easier to test the full flow with fixture data instead of trying to use the real thing (like if you are trying to troubleshoot problems on a weekend, and the menu pages don't have valid menu data to test with). For this, you can use the following enviornment variables when you are deploying the function locally:
+
+- `DEBUG_EUREST` will you use the `__test__/fixtures/bkw-atrium.html` instead of scraping the real Atrium webpage
+- `DEBUG_ATRIUM` will use the `__test__/fixtures/werdino.html` instead of scraping the real Werdino (Eurest) webpage
+
 
