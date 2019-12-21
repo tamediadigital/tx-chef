@@ -16,13 +16,14 @@ test('exports a promise with menu data', () => {
 });
 
 test('gets first meal', () => {
-  expect.assertions(3);
+  expect.assertions(4);
   return fn().then(data => {
     const meal = data.meals.Brasserie;
 
     expect(meal.title).toBe('Gyros vom Schwein');
     expect(meal.description).toBe('(Schweiz) mit Reis, Pita Brot, Salat und Tomaten dazu ein Sauerrahm Dip');
     expect(meal.prices[0]).toBe('CHF 9,50');
+    expect(meal.prices[1]).toBe('CHF 13,50');
   });
 });
 
