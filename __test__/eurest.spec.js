@@ -15,24 +15,49 @@ test('exports a promise with menu data', () => {
   });
 });
 
-test('menu data', () => {
-  expect.assertions(9);
+test('gets first meal', () => {
+  expect.assertions(3);
   return fn().then(data => {
-    // Brasserie
-    const bmeal = data.meals.Brasserie;
+    const meal = data.meals.Brasserie;
 
-    expect(bmeal.title).toBe('Gyros vom Schwein');
-    expect(bmeal.description).toBe('(Schweiz) mit Reis, Pita Brot, Salat und Tomaten dazu ein Sauerrahm Dip');
-    expect(Array.isArray(bmeal.prices)).toBe(true);
-    expect(bmeal.prices[0]).toBe('CHF 9,50');
+    expect(meal.title).toBe('Gyros vom Schwein');
+    expect(meal.description).toBe('(Schweiz) mit Reis, Pita Brot, Salat und Tomaten dazu ein Sauerrahm Dip');
+    expect(meal.prices[0]).toBe('CHF 9,50');
+  });
+});
 
-    // Grün und natürlich
-    const gmeal = data.meals['Grün und natürlich'];
+test('gets second meal', () => {
+  expect.assertions(4);
+  return fn().then(data => {
+    const meal = data.meals['Grün und natürlich'];
 
-    expect(gmeal.title).toBe('Älplermagronen');
-    expect(gmeal.description).toBe('mit Kartoffeln, Bergkäse und Röstzwiebeln dazu Apfelmus und Parmesan');
-    expect(Array.isArray(gmeal.prices)).toBe(true);
-    expect(gmeal.prices[0]).toBe('CHF 9,50');
-    expect(gmeal.prices[1]).toBe('CHF 13,50');
+    expect(meal.title).toBe('Älplermagronen');
+    expect(meal.description).toBe('mit Kartoffeln, Bergkäse und Röstzwiebeln dazu Apfelmus und Parmesan');
+    expect(meal.prices[0]).toBe('CHF 9,50');
+    expect(meal.prices[1]).toBe('CHF 13,50');
+  });
+});
+
+test('gets third meal', () => {
+  expect.assertions(4);
+  return fn().then(data => {
+    const meal = data.meals['Feuer und Flamme'];
+
+    expect(meal.title).toBe('Entenbrust (Frankreich)');
+    expect(meal.description).toBe('mit Kirschen-Balsamicojus, Kartoffel Gnocchi und glasierte Karotten mit Ingwer');
+    expect(meal.prices[0]).toBe('CHF 14,00');
+    expect(meal.prices[1]).toBe('CHF 18,00');
+  });
+});
+
+test('gets fourth meal', () => {
+  expect.assertions(4);
+  return fn().then(data => {
+    const meal = data.meals.Tagessuppe;
+
+    expect(meal.title).toBe('Gartenkressesuppe');
+    expect(meal.description).toBe(null);
+    expect(meal.prices[0]).toBe('CHF 1,40');
+    expect(meal.prices[1]).toBe('CHF 1,70');
   });
 });
