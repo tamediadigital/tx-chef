@@ -22,7 +22,9 @@ const getMenu = $ => {
       .trim();
 
     if (!day.meals[category]) {
-      day.meals[category] = {};
+      day.meals[category] = {
+        id: String(i),
+      };
     }
 
     day.meals[category].title = $menuSection

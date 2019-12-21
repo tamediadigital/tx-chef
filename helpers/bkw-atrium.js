@@ -24,16 +24,17 @@ const getMenu = $ => {
 			return;
 		}
 
-		const title = condense(
+		const title = 
 			$menuSection
 				.find('.menu-title')
 				.text()
-				.trim()
-		);
+				.replace(/\s+/gm, ' ')
+				.trim();
 
 		if (!day.meals[title]) {
 			day.meals[title] = {
 				title,
+				id: String(i),
 			};
 		}
 
@@ -48,8 +49,8 @@ const getMenu = $ => {
 			.find('.menu-description')
 			.text()
 			.replace(/<br\s?\/>/gm, '')
-			.trim()
-			.replace(/\s+/gm, ' ');
+			.replace(/\s+/gm, ' ')
+			.trim();
 
 		day.meals[title].prices = $menuSection
 			.find('.menu-prices span.val')
@@ -62,6 +63,7 @@ const getMenu = $ => {
 			.get();
 
 		day.meals[title].vegetarian = $menuSection.find('.label-vegetarian').length > 0;
+		day.meals[title].vegan = $menuSection.find('.label-vegan').length > 0;
 	});
 
 	return day;

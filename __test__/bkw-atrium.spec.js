@@ -5,46 +5,72 @@ jest.mock('axios');
 test('exports a promise with menu data', () => {
   expect.assertions(2);
   return fn('bkw-atrium').then(data => {
-    expect(data.date).toBe('13.12.');
+    expect(data.date).toBe('20.12.');
     expect(Object.keys(data.meals)).toMatchObject([
-      'Herzlichen Dank',
-      'Paniertes Tofuschnitzel',
-      'Ghackets und Hörnli',
+      'The KKM Burger',
+      'Tortellini mit Rindfleisch',
+      'Frühlings­rollen',
       'Hot Komponenten Salatbuffet',
     ]);
   });
 });
 
-test('menu data', () => {
-  expect.assertions(10);
+test('finds the first meal', () => {
+  expect.assertions(6);
   return fn('bkw-atrium').then(data => {
-    const bmeal = data.meals['Herzlichen Dank'];
+    const meal = data.meals['The KKM Burger'];
 
-    expect(bmeal.title).toBe('Herzlichen Dank');
-    expect(bmeal.description).toBe('für Ihre Treue. Wir wünschen Ihnen ein schönes Wochenende. Ihr atrium-Team');
-    expect(bmeal.provenance).toBe('');
-    expect(bmeal.prices.length).toBe(0);
-
-    const gmeal = data.meals['Ghackets und Hörnli'];
-
-    expect(gmeal.title).toBe('Ghackets und Hörnli');
-    expect(gmeal.description).toBe(
-      'mit Rindfleischsauce, Reibkäse und Apfelmus oder Menusalat Add on: gebackene Zwiebelringe CHF 2.00'
-    );
-    expect(Array.isArray(gmeal.prices)).toBe(true);
-    expect(gmeal.prices[0]).toBe('9.50 CHF');
-    expect(gmeal.prices[1]).toBe('13.50 CHF');
-    expect(gmeal.provenance).toBe('Rind, Schweiz');
+    expect(meal.title).toBe('The KKM Burger');
+    expect(meal.description).toBe('mit Rindfleisch oder vegetarisch, im Briochebun mit Cocktailsauce, Coleslaw, Lollo rosso, Gurke und Tomate inkl. Softgetränk Offeriert von der BKW ...es het solang`s het...');
+    expect(meal.provenance).toBe('Rind, Schweiz');
+    expect(meal.prices.length).toBe(0);
+    expect(meal.vegetarian).toBe(false);
+    expect(meal.vegan).toBe(false);
   });
 });
 
-test('find the vegetarian label', () => {
-  expect.assertions(2);
+test('finds the second meal', () => {
+  expect.assertions(7);
   return fn('bkw-atrium').then(data => {
-    const vmeal = data.meals['Paniertes Tofuschnitzel'];
-    expect(vmeal.vegetarian).toBe(true);
+    const meal = data.meals['Tortellini mit Rindfleisch'];
 
-    const bmeal = data.meals['Herzlichen Dank'];
-    expect(bmeal.vegetarian).toBe(false);
+    expect(meal.title).toBe('Tortellini mit Rindfleisch');
+    expect(meal.description).toBe('mit Pestorahmsauce und glasierten Cherrytomaten');
+    expect(meal.prices[0]).toBe('9.50 CHF');
+    expect(meal.prices[1]).toBe('13.50 CHF');
+    expect(meal.provenance).toBe('Rind, Schweiz');
+    expect(meal.vegetarian).toBe(false);
+    expect(meal.vegan).toBe(false);
   });
 });
+
+test('finds the third meal', () => {
+  expect.assertions(7);
+  return fn('bkw-atrium').then(data => {
+    const meal = data.meals['Frühlings­rollen'];
+
+    expect(meal.title).toBe('Frühlings­rollen');
+    expect(meal.description).toBe('mit Sweet-Chilisauce und sautiertem Chinagemüse Add on: 1 weitere Frühlingsrolle CHF 2.00');
+    expect(meal.prices[0]).toBe('9.50 CHF');
+    expect(meal.prices[1]).toBe('13.50 CHF');
+    expect(meal.provenance).toBe('');
+    expect(meal.vegetarian).toBe(false);
+    expect(meal.vegan).toBe(true);
+  });
+});
+
+test('finds the fourth meal', () => {
+  expect.assertions(7);
+  return fn('bkw-atrium').then(data => {
+    const meal = data.meals['Hot Komponenten Salatbuffet'];
+
+    expect(meal.title).toBe('Hot Komponenten Salatbuffet');
+    expect(meal.description).toBe('Gemüse, Beilagen, Fleisch oder Fisch per 100g');
+    expect(meal.prices[0]).toBe('2.40 CHF');
+    expect(meal.prices[1]).toBe('3.20 CHF');
+    expect(meal.provenance).toBe('');
+    expect(meal.vegetarian).toBe(false);
+    expect(meal.vegan).toBe(false);
+  });
+});
+
