@@ -36,15 +36,15 @@ function objectify(text) {
 
 		section.split('\n').forEach(s => {
 			if (s.indexOf(TITLE_TOKEN) === 0) {
-				obj.title = s.replace(TITLE_TOKEN, '');
+				obj.title = s.replace(TITLE_TOKEN, '').trim();
 			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
-				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '');
+				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '').trim();
 			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
-				obj.description = s.replace(DESCRIPTION_TOKEN, '');
+				obj.description = s.replace(DESCRIPTION_TOKEN, '').trim();
 			} else if (s.indexOf(PRICE_TOKEN) === 0) {
-				obj.price = s.replace(PRICE_TOKEN, '');
+				obj.price = s.replace(PRICE_TOKEN, '').trim();
 			} else if (s.indexOf(ID_TOKEN) === 0) {
-				obj.id = s.replace(ID_TOKEN, '');
+				obj.id = s.replace(ID_TOKEN, '').trim();
 			}
 		});
 
