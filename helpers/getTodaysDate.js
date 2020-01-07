@@ -4,7 +4,7 @@
 const getTodaysDate = () => {
 	const d = new Date();
 
-  const options = {
+	const options = {
 		weekday: 'long',
 		day: 'numeric',
 		month: 'long',

@@ -37,6 +37,7 @@ const getDescription = str => {
 /**
  * Build a block for Slack using the supplied language data
  * @param {Object} obj
+ * @param {String} sourceLangauge
  */
 const sectionBuilder = (obj, sourceLangauge) => {
 	const section = [
@@ -61,8 +62,17 @@ const sectionBuilder = (obj, sourceLangauge) => {
 			elements: [
 				{
 					type: 'mrkdwn',
-					text: `${obj.price}\n\n`},
+					text: `${obj.price}\n\n`,
+				},
 			],
+		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: ' ',
+				emoji: false,
+			},
 		},
 	];
 
@@ -86,6 +96,14 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 				text: `${name} menu for *${getTodaysDate()}*\n\n`,
 			},
 		},
+		{
+			type: 'section',
+			text: {
+				type: 'plain_text',
+				text: ' ',
+				emoji: false,
+			},
+		},
 	];
 
 	// Now add in each section with the menu information for the day
@@ -95,7 +113,7 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 				type: 'section',
 				text: {
 					type: 'mrkdwn',
-					text: `${getIconForTitle(o.title)} *${o.titleEn}*`,
+					text: `${getIconForTitle(o.title)} *${o.titleEn.toUpperCase()}*`,
 				},
 			});
 		}

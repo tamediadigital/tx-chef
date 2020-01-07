@@ -10,11 +10,7 @@ const atrium = require('./helpers/bkw-atrium');
 // (which saves time and cost) and give us a way to parse / grep the values out of
 // the string later on (like when we want to build a data object from the scraped
 // and translated values).
-const TITLE_TOKEN = '[T_] ';
-const PRICE_TOKEN = '[M_P] ';
-const DESCRIPTION_TOKEN = '[M_D] ';
-const MEAL_TITLE_TOKEN = '[M_T] ';
-const SEPERATOR = '🦄\n';
+const { TITLE_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
 
 // Cost per character via AWS Translate
 // https://aws.amazon.com/translate/pricing/
@@ -23,13 +19,15 @@ const COST_PER_CHAR = 0.000015;
 // Creates a client
 const translate = new AWS.Translate({ apiVersion: '2017-07-01' });
 
+const { DEBUG_ATRIUM, DEBUG_EUREST } = process.env;
+
 /**
  * Build a data object from a string with special delimeters.
  * @param {String} text
  * @returns {Object}
  */
 function objectify(text) {
-	const parts = text.split(SEPERATOR);
+	const parts = text.split(SEPERATOR).map(v => v.trim());
 
 	const meals = [];
 
@@ -38,13 +36,15 @@ function objectify(text) {
 
 		section.split('\n').forEach(s => {
 			if (s.indexOf(TITLE_TOKEN) === 0) {
-				obj.title = s.replace(TITLE_TOKEN, '');
+				obj.title = s.replace(TITLE_TOKEN, '').trim();
 			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
-				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '');
+				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '').trim();
 			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
-				obj.description = s.replace(DESCRIPTION_TOKEN, '');
+				obj.description = s.replace(DESCRIPTION_TOKEN, '').trim();
 			} else if (s.indexOf(PRICE_TOKEN) === 0) {
-				obj.price = s.replace(PRICE_TOKEN, '');
+				obj.price = s.replace(PRICE_TOKEN, '').trim();
+			} else if (s.indexOf(ID_TOKEN) === 0) {
+				obj.id = s.replace(ID_TOKEN, '').trim();
 			}
 		});
 
@@ -66,9 +66,9 @@ const getMenuData = (url, sourceLanguage) => {
 	let originalText = '';
 
 	return new Promise((resolve, reject) => {
-		const scapePage = url.includes('eurest') ? eurest : atrium;
+		const scrapedPage = url.includes('eurest') ? eurest : atrium;
 
-		scapePage(url).then(data => {
+		scrapedPage(url).then(data => {
 			const todaysItemKey = getTodaysDateKey();
 
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
@@ -88,8 +88,9 @@ const getMenuData = (url, sourceLanguage) => {
 						originalText += `${DESCRIPTION_TOKEN} ${mealDescription}\n`;
 					}
 
+					originalText += `${ID_TOKEN} ${condense(item.id)}\n`;
 					originalText += `${PRICE_TOKEN} ${item.prices.map(s => condense(s)).join(' | ')}\n`;
-					originalText += SEPERATOR;
+					originalText += `${SEPERATOR}\n`;
 				});
 
 				const translationRequest = translate.translateText({
@@ -108,17 +109,26 @@ const getMenuData = (url, sourceLanguage) => {
 
 					const englishObject = objectify(response.data.TranslatedText);
 
+					if (DEBUG_ATRIUM || DEBUG_EUREST) {
+						console.log(originalText, '\n');
+						console.log(response.data.TranslatedText, '\n');
+						console.log({originalTextObject});
+						console.log({englishObject});
+					};
+
 					// Merge the english translations with the original language
 					// to make the block building easier
-					englishObject.forEach((obj, index) => {
+					englishObject.forEach(obj => {
+						const id = Number(obj.id);
+
 						if (obj.title) {
-							originalTextObject[index].titleEn = obj.title;
+							originalTextObject[id].titleEn = obj.title;
 						}
 						if (obj.mealTitle) {
-							originalTextObject[index].mealTitleEn = obj.mealTitle;
+							originalTextObject[id].mealTitleEn = obj.mealTitle;
 						}
 						if (obj.description) {
-							originalTextObject[index].descriptionEn = obj.description;
+							originalTextObject[id].descriptionEn = obj.description;
 						}
 					});
 

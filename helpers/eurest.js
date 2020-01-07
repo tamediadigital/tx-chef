@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
@@ -22,7 +24,9 @@ const getMenu = $ => {
       .trim();
 
     if (!day.meals[category]) {
-      day.meals[category] = {};
+      day.meals[category] = {
+        id: String(i),
+      };
     }
 
     day.meals[category].title = $menuSection
@@ -56,5 +60,9 @@ module.exports = url =>
 	axios.get(url).then(res => {
   const { data } = res;
 
+  if (process.env.DEBUG_EUREST) {
+    const werdinoData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/werdino.html'), 'utf8');
+    return getMenu(cheerio.load(werdinoData));
+  }
   return getMenu(cheerio.load(data));
 });
