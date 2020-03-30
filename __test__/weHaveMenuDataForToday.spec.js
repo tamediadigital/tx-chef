@@ -51,8 +51,16 @@ describe('weHaveMenuDataForToday', () => {
 				foo: {},
 			},
 		};
+		
+		const fixture2 = {
+			date: '07.01.',
+			meals: {
+				foo: {},
+			},
+		};
 
 		expect(fn(fixture, '13.12.')).toBe(true);
+		expect(fn(fixture2, '07.01.')).toBe(true);
 	});
 
 	test('returns false for invalid days in the XX.XX. format', () => {

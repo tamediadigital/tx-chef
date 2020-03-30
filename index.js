@@ -69,6 +69,8 @@ const getMenuData = (url, sourceLanguage) => {
 		const scrapedPage = url.includes('eurest') ? eurest : atrium;
 
 		scrapedPage(url).then(data => {
+			console.log(data);
+			console.log('\n\n\n\n\n\n\n--------');
 			const todaysItemKey = getTodaysDateKey();
 
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
