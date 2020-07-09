@@ -4,6 +4,8 @@ const noDataTodayMessage = require('./helpers/noDataTodayMessage');
 const devConfig = require('./config/config.dev.json'); // eslint-disable-line import/no-unresolved
 const getMenuData = require('.');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 /**
  * Get the suppled enviornment variable, or provide a development default
  * @param {String} envVarName
