@@ -1,22 +1,18 @@
 service: tx-chef
+useDotenv: true
+frameworkVersion: ^1.64.1
 provider:
+  lambdaHashingVersion: 20201221
   name: aws
   profile: tamedia
   region: eu-central-1
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   timeout: 30
   stage: ${opt:stage, 'dev'}
   role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
 functions:
   run:
     handler: handler.run
-    environment:
-      WERDINO_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):WERDINO_WEBHOOK_ADDRESSES}
-      BUBENBERG_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BUBENBERG_WEBHOOK_ADDRESSES}
-      BERN_ZENTWEG_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BERN_ZENTWEG_WEBHOOK_ADDRESSES}
-      BUSSIGNY_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BUSSIGNY_WEBHOOK_ADDRESSES}
-      LE_SCOOP_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):LE_SCOOP_WEBHOOK_ADDRESSES}
-      BKW_ATRIUM_WEBHOOK_ADDRESSES: ${file(./config/config.${self:provider.stage, }.json):BKW_ATRIUM_WEBHOOK_ADDRESSES}
     events:
     - schedule:
         rate: cron(0 7 ? * MON-FRI *)

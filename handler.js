@@ -24,40 +24,46 @@ const getWebhookAddresses = envVarName => {
 };
 
 const ENVIORNMENT_DATA = {
-	WERDINO: {
+	WERDINO_TAMEDIA: {
 		NAME: 'Werdino',
 		URL: 'https://clients.eurest.ch/de/tamediazuerich/menu',
-		WEBHOOKS: getWebhookAddresses('WERDINO_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('WERDINO_TAMEDIA_WEBHOOK_ADDRESS'),
+		SOURCE_LANGUAGE: 'de',
+	},
+	WERDINO_DOODLE: {
+		NAME: 'Werdino',
+		URL: 'https://clients.eurest.ch/de/tamediazuerich/menu',
+		WEBHOOKS: getWebhookAddresses('WERDINO_DOODLE_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
 	BUBENBERG: {
 		NAME: 'Bubenberg',
 		URL: 'https://clients.eurest.ch/dzz/de/Bubenberg',
-		WEBHOOKS: getWebhookAddresses('BUBENBERG_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('BUBENBERG_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
 	BERN_ZENTWEG: {
 		NAME: 'Bern Zentweg',
 		URL: 'https://www.eurest.ch/dzb',
-		WEBHOOKS: getWebhookAddresses('BERN_ZENTWEG_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('BERN_ZENTWEG_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
 	BUSSIGNY: {
 		NAME: 'Bussigny',
 		URL: 'https://www.eurest.ch/cil',
-		WEBHOOKS: getWebhookAddresses('BUSSIGNY_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('BUSSIGNY_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'fr',
 	},
 	LE_SCOOP: {
 		NAME: 'Le Scoop',
 		URL: 'https://www.eurest.ch/tamedia-lausanne',
-		WEBHOOKS: getWebhookAddresses('LE_SCOOP_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('LE_SCOOP_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'fr',
 	},
 	BKW_ATRIUM: {
 		NAME: 'BKW Atrium',
 		URL: 'https://bkw-bern.sv-restaurant.ch/de/menuplan',
-		WEBHOOKS: getWebhookAddresses('BKW_ATRIUM_WEBHOOK_ADDRESSES'),
+		WEBHOOKS: getWebhookAddresses('BKW_ATRIUM_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
 };

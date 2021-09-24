@@ -5,13 +5,22 @@ const { ISSUES_LINK } = require('../constants');
 /**
  * Determine which emoji should be used for specific (or unknown titles)
  * @param {String} title
+ * @returns {String}
  */
 const getIconForTitle = title => {
+	if (typeof title !== 'string') {
+		return ':mega:'
+	}
+
 	const lowerTitle = title.toLowerCase().trim();
 	switch (lowerTitle) {
+		case 'menü':
+		case 'menu':
+			return ':knife_fork_plate:';
 		case 'brasserie':
 			return ':meat_on_bone:';
 		case 'grün und natürlich':
+		case 'vegi':
 			return ':broccoli:';
 		case 'feuer und flamme':
 			return ':fire:';
@@ -113,7 +122,7 @@ function messageBuilder(obj, url, name, sourceLangauge) {
 				type: 'section',
 				text: {
 					type: 'mrkdwn',
-					text: `${getIconForTitle(o.title)} *${o.titleEn.toUpperCase()}*`,
+					text: `${getIconForTitle(o.category)} *${o.category.toUpperCase()}*`,
 				},
 			});
 		}

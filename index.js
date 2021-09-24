@@ -10,7 +10,7 @@ const atrium = require('./helpers/bkw-atrium');
 // (which saves time and cost) and give us a way to parse / grep the values out of
 // the string later on (like when we want to build a data object from the scraped
 // and translated values).
-const { TITLE_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
+const { CATEGORY_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
 
 // Cost per character via AWS Translate
 // https://aws.amazon.com/translate/pricing/
@@ -28,15 +28,14 @@ const { DEBUG_ATRIUM, DEBUG_EUREST } = process.env;
  */
 function objectify(text) {
 	const parts = text.split(SEPERATOR).map(v => v.trim());
-
 	const meals = [];
 
 	parts.forEach(section => {
 		const obj = {};
 
 		section.split('\n').forEach(s => {
-			if (s.indexOf(TITLE_TOKEN) === 0) {
-				obj.title = s.replace(TITLE_TOKEN, '').trim();
+			if (s.indexOf(CATEGORY_TOKEN) === 0) {
+				obj.category = s.replace(CATEGORY_TOKEN, '').trim();
 			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
 				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '').trim();
 			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
@@ -48,7 +47,7 @@ function objectify(text) {
 			}
 		});
 
-		if (obj.title && obj.title !== '') {
+		if (obj.mealTitle && obj.mealTitle !== '') {
 			meals.push(obj);
 		}
 	});
@@ -76,10 +75,12 @@ const getMenuData = (url, sourceLanguage) => {
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
-				Object.keys(data.meals).forEach(category => {
-					const item = data.meals[category];
-
-					originalText += `${TITLE_TOKEN} ${condense(category)}\n`;
+				Object.keys(data.meals).forEach(menuItemKey => {
+					const item = data.meals[menuItemKey];
+					const { category } = item;
+				
+					const mealCategory = category || '';
+					originalText += `${CATEGORY_TOKEN} ${condense(mealCategory)}\n`;
 
 					const mealTitle = condense(item.title);
 					const mealDescription = condense(item.description || '');
@@ -90,7 +91,7 @@ const getMenuData = (url, sourceLanguage) => {
 						originalText += `${DESCRIPTION_TOKEN} ${mealDescription}\n`;
 					}
 
-					originalText += `${ID_TOKEN} ${condense(item.id)}\n`;
+					originalText += `${ID_TOKEN} ${menuItemKey}\n`;
 					originalText += `${PRICE_TOKEN} ${item.prices.map(s => condense(s)).join(' | ')}\n`;
 					originalText += `${SEPERATOR}\n`;
 				});
@@ -120,17 +121,15 @@ const getMenuData = (url, sourceLanguage) => {
 
 					// Merge the english translations with the original language
 					// to make the block building easier
-					englishObject.forEach(obj => {
-						const id = Number(obj.id);
-
-						if (obj.title) {
-							originalTextObject[id].titleEn = obj.title;
+					englishObject.forEach((obj, index) => {
+						if (obj.category) {
+							originalTextObject[index].categoryEn = obj.category;
 						}
 						if (obj.mealTitle) {
-							originalTextObject[id].mealTitleEn = obj.mealTitle;
+							originalTextObject[index].mealTitleEn = obj.mealTitle;
 						}
 						if (obj.description) {
-							originalTextObject[id].descriptionEn = obj.description;
+							originalTextObject[index].descriptionEn = obj.description;
 						}
 					});
 

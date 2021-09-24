@@ -13,3 +13,9 @@ jspm_packages
 google-cloud-creds.json
 
 config
+
+.env.dev
+.env.local
+.env.prod
+.env.production
+

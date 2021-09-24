@@ -2,6 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const https = require('https');
+
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 /**
  * Get the daily menu details from a Eurest page
@@ -18,29 +23,31 @@ const getMenu = $ => {
   $('.list-item').each((i, menuSection) => {
     const $menuSection = $(menuSection);
 
-    const category = $menuSection
-      .find('.menuline')
-      .text()
-      .trim();
+    const id = i;
 
-    if (!day.meals[category]) {
-      day.meals[category] = {
-        id: String(i),
+    if (!day.meals[id]) {
+      day.meals[id] = {
+        id: String(id),
       };
     }
+  
+    day.meals[id].category = $menuSection
+    .find('.menuline')
+    .text()
+    .trim() || null;
 
-    day.meals[category].title = $menuSection
+    day.meals[id].title = $menuSection
       .find('h3')
       .text()
       .trim();
 
-    day.meals[category].description =
+    day.meals[id].description =
 			$menuSection
       .find('.wide p')
       .text()
 				.trim() || null;
 
-    day.meals[category].prices = $menuSection
+    day.meals[id].prices = $menuSection
       .find('.price-wrapper p')
       .map((index, el) =>
 				$(el)
@@ -57,7 +64,7 @@ const getMenu = $ => {
  * Export promise
  */
 module.exports = url =>
-	axios.get(url).then(res => {
+	axios.get(url, { httpsAgent: agent }).then(res => {
   const { data } = res;
 
   if (process.env.DEBUG_EUREST) {
