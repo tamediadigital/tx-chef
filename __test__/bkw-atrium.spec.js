@@ -3,15 +3,9 @@ const fn = require('../helpers/bkw-atrium.js');
 jest.mock('axios');
 
 test('exports a promise with menu data', () => {
-  expect.assertions(3);
+  expect.assertions(2);
   return fn('bkw-atrium').then(data => {
     expect(data.date).toBe('22.09.');
-    expect(Object.keys(data.meals)).toMatchObject([
-    'Menu Deluxe',
-    'Kalbsragout',
-    'Kürbis-Wähe',
-    'Tageshit',
-    ]);
     expect(data).toMatchSnapshot();
   });
 });
@@ -19,7 +13,7 @@ test('exports a promise with menu data', () => {
 test('finds the first meal', () => {
   expect.assertions(6);
   return fn('bkw-atrium').then(data => {
-    const meal = data.meals['Menu Deluxe'];
+    const meal = Object.values(data.meals).filter(mealObj => mealObj.title === 'Menu Deluxe').pop();
 
     expect(meal.title).toBe('Menu Deluxe');
     expect(meal.description).toBe('Heute in der Genusspause');
@@ -33,7 +27,7 @@ test('finds the first meal', () => {
 test('finds vegetarian meals', () => {
   expect.assertions(3);
   return fn('bkw-atrium').then(data => {
-    const meal = data.meals['Kürbis-Wähe'];
+    const meal = Object.values(data.meals).filter(mealObj => mealObj.title === 'Kürbis-Wähe').pop();
 
     expect(meal.title).toBe('Kürbis-Wähe');
     expect(meal.vegetarian).toBe(true);

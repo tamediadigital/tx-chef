@@ -4,31 +4,8 @@ exports[`exports a promise with menu data 1`] = `
 Object {
   "date": "22.09.",
   "meals": Object {
-    "Kalbsragout": Object {
-      "description": "mit Senfsauce, Kartoffelgratin und Blattspinat mit Muskat",
-      "id": "1",
-      "prices": Array [
-        "13.50 CHF",
-        "9.50 CHF",
-      ],
-      "provenance": "Kalb, Schweiz",
-      "title": "Kalbsragout",
-      "vegan": false,
-      "vegetarian": false,
-    },
-    "Kürbis-Wähe": Object {
-      "description": "mit frischem Salbei, Knoblauch-Dip und Spinatsalat",
-      "id": "2",
-      "prices": Array [
-        "13.50 CHF",
-        "9.50 CHF",
-      ],
-      "provenance": "",
-      "title": "Kürbis-Wähe",
-      "vegan": false,
-      "vegetarian": true,
-    },
-    "Menu Deluxe": Object {
+    "0": Object {
+      "category": "",
       "description": "Heute in der Genusspause",
       "id": "0",
       "prices": Array [
@@ -40,7 +17,34 @@ Object {
       "vegan": false,
       "vegetarian": false,
     },
-    "Tageshit": Object {
+    "1": Object {
+      "category": "",
+      "description": "mit Senfsauce, Kartoffelgratin und Blattspinat mit Muskat",
+      "id": "1",
+      "prices": Array [
+        "13.50 CHF",
+        "9.50 CHF",
+      ],
+      "provenance": "Kalb, Schweiz",
+      "title": "Kalbsragout",
+      "vegan": false,
+      "vegetarian": false,
+    },
+    "2": Object {
+      "category": "",
+      "description": "mit frischem Salbei, Knoblauch-Dip und Spinatsalat",
+      "id": "2",
+      "prices": Array [
+        "13.50 CHF",
+        "9.50 CHF",
+      ],
+      "provenance": "",
+      "title": "Kürbis-Wähe",
+      "vegan": false,
+      "vegetarian": true,
+    },
+    "3": Object {
+      "category": "",
       "description": "Lassen Sie sich täglich an der Menustation überraschen! ... es het, solang's het ...",
       "id": "3",
       "prices": Array [
