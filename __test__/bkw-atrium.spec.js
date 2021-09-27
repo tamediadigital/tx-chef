@@ -1,4 +1,4 @@
-const fn = require('../helpers/bkw-atrium.js');
+const fn = require('../helpers/bkw-atrium');
 
 jest.mock('axios');
 

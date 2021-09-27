@@ -21,7 +21,7 @@ const params = {
 
 const translate = new AWS.Translate({ apiVersion: '2017-07-01', region: 'eu-central-1' });
 
-translate.importTerminology(params, function(err, data) {
+translate.importTerminology(params, (err, data) => {
 	if (err) {
 		console.log(err, err.stack);
 	} else {

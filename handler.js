@@ -69,12 +69,12 @@ const ENVIORNMENT_DATA = {
 };
 
 function run() {
-	Object.keys(ENVIORNMENT_DATA).forEach(function(key) {
+	Object.keys(ENVIORNMENT_DATA).forEach((key) => {
 		const slackTargetData = ENVIORNMENT_DATA[key];
 		const { URL, WEBHOOKS, NAME, SOURCE_LANGUAGE } = slackTargetData;
 
 		getMenuData(URL, SOURCE_LANGUAGE)
-			.then(async function(data) {
+			.then(async (data) => {
 				let blocks;
 
 				if (data.error && data.error === 'NO_MENU_DATA_TODAY') {
@@ -106,7 +106,7 @@ function run() {
 					)
 				);
 			})
-			.catch(function(err) {
+			.catch((err) => {
 				console.log(`Error in getMenuData: ${err}`);
 			});
 	});

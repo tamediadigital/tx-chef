@@ -102,7 +102,7 @@ const getMenuData = (url, sourceLanguage) => {
 					Text: originalText,
 				});
 
-				translationRequest.on('success', function(response) {
+				translationRequest.on('success', (response) => {
 					const originalTextObject = objectify(originalText);
 
 					if (!response || !response.data || !response.data.TranslatedText) {
@@ -140,7 +140,7 @@ const getMenuData = (url, sourceLanguage) => {
 					resolve(originalTextObject);
 				});
 
-				translationRequest.on('error', function(error, response) {
+				translationRequest.on('error', (error, response) => {
 					console.log('Error!');
 					console.log({ error, response });
 					reject(error);
