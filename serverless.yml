@@ -1,6 +1,6 @@
 service: tx-chef
 useDotenv: true
-frameworkVersion: ^1.64.1
+frameworkVersion: ^2.59.0
 provider:
   lambdaHashingVersion: 20201221
   name: aws
@@ -15,5 +15,5 @@ functions:
     handler: handler.run
     events:
     - schedule:
-        rate: cron(0 7 ? * MON-FRI *)
+        rate: cron(0 5 ? * MON-FRI *)
         enabled: true
