@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk');
-const { TITLE_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
+const { CATEGORY_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOKEN, SEPERATOR } = require('./constants');
 
 const CSV = `en,de,fr
-${TITLE_TOKEN},${TITLE_TOKEN},${TITLE_TOKEN}
+${CATEGORY_TOKEN},${CATEGORY_TOKEN},${CATEGORY_TOKEN}
 ${PRICE_TOKEN},${PRICE_TOKEN},${PRICE_TOKEN}
 ${DESCRIPTION_TOKEN},${DESCRIPTION_TOKEN},${DESCRIPTION_TOKEN}
 ${MEAL_TITLE_TOKEN},${MEAL_TITLE_TOKEN},${MEAL_TITLE_TOKEN}
@@ -21,7 +21,7 @@ const params = {
 
 const translate = new AWS.Translate({ apiVersion: '2017-07-01', region: 'eu-central-1' });
 
-translate.importTerminology(params, function(err, data) {
+translate.importTerminology(params, (err, data) => {
 	if (err) {
 		console.log(err, err.stack);
 	} else {

@@ -27,19 +27,18 @@
 ```
   serverless config credentials --provider aws --key <KEY> --secret <SECRET> --profile tamedia
 ```
-3. Save two files named `config/config.dev.json` and `config.prod.json` with the following structure:
+3. Save two files named `.env.dev` (for testing) and `env.prod` (for production) with the following structure:
 
 :bulb: **Note:** You can have more than one webhook assigned, you just need to seperate the multiple webhook addresses with a comma
 
 ```
-{
-  "WERDINO_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-  "BUBENBERG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-  "BERN_ZENTWEG_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
-  "BUSSIGNY_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/...",
-  "LE_SCOOP_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
-  "BKW_ATRIUM_WEBHOOK_ADDRESSES": "https://hooks.slack.com/services/..."
-}
+BERN_ZENTWEG_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+BKW_ATRIUM_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+BUBENBERG_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+BUSSIGNY_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+LE_SCOOP_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+WERDINO_TAMEDIA_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+WERDINO_DOODLE_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
 ```
 
 ### Deploy to AWS Lambda

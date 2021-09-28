@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exports a promise with menu data 1`] = `
+Object {
+  "date": "22.09.",
+  "meals": Object {
+    "0": Object {
+      "category": "",
+      "description": "Heute in der Genusspause",
+      "id": "0",
+      "prices": Array [
+        "16.50 CHF",
+        "12.50 CHF",
+      ],
+      "provenance": "",
+      "title": "Menu Deluxe",
+      "vegan": false,
+      "vegetarian": false,
+    },
+    "1": Object {
+      "category": "",
+      "description": "mit Senfsauce, Kartoffelgratin und Blattspinat mit Muskat",
+      "id": "1",
+      "prices": Array [
+        "13.50 CHF",
+        "9.50 CHF",
+      ],
+      "provenance": "Kalb, Schweiz",
+      "title": "Kalbsragout",
+      "vegan": false,
+      "vegetarian": false,
+    },
+    "2": Object {
+      "category": "",
+      "description": "mit frischem Salbei, Knoblauch-Dip und Spinatsalat",
+      "id": "2",
+      "prices": Array [
+        "13.50 CHF",
+        "9.50 CHF",
+      ],
+      "provenance": "",
+      "title": "Kürbis-Wähe",
+      "vegan": false,
+      "vegetarian": true,
+    },
+    "3": Object {
+      "category": "",
+      "description": "Lassen Sie sich täglich an der Menustation überraschen! ... es het, solang's het ...",
+      "id": "3",
+      "prices": Array [
+        "0.00 CHF",
+        "-4.00 CHF",
+      ],
+      "provenance": "",
+      "title": "Tageshit",
+      "vegan": false,
+      "vegetarian": false,
+    },
+  },
+}
+`;

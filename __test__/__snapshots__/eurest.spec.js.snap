@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`exports a promise with menu data 1`] = `
+Object {
+  "date": "22.09.21",
+  "meals": Object {
+    "0": Object {
+      "category": "Brasserie",
+      "description": "Kraftkorn-Malz Bagel mit Avocado, Tomaten, Rührei und Rauchlachs (NO)",
+      "id": "0",
+      "prices": Array [
+        "CHF 9,50",
+        "Ext. 13,50",
+        "723 kcal",
+      ],
+      "title": "Healthy Bagel",
+    },
+    "1": Object {
+      "category": "Grün und natürlich",
+      "description": "auf Tomaten-Risotto mit Gartenkresse und Reibkäse",
+      "id": "1",
+      "prices": Array [
+        "CHF 9,50",
+        "Ext. 13,50",
+        "927 kcal",
+      ],
+      "title": "Panierte Champignons",
+    },
+    "2": Object {
+      "category": "Tagessuppe",
+      "description": "mit Quinoa und Haselnüsse",
+      "id": "2",
+      "prices": Array [
+        "CHF 1,40",
+        "Ext. 1,70",
+      ],
+      "title": "Selleriesuppe",
+    },
+    "3": Object {
+      "category": "Buddha Bowl",
+      "description": "Hackfleisch(CH),Mango,Radieschen, Minze Limettenblätter, Lauchzwiebeln, Paprika, Koriander, Lattich und Sweet-Chili-Sauce",
+      "id": "3",
+      "prices": Array [
+        "CHF 15,00",
+        "Ext. 19,00",
+        "679 kcal",
+      ],
+      "title": "Yumi Glass Nudeln",
+    },
+  },
+}
+`;

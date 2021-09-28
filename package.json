@@ -10,7 +10,7 @@
 		"url": "https://github.com/radiovisual"
 	},
 	"engines": {
-		"node": ">=8"
+		"node": ">=14"
 	},
 	"scripts": {
 		"test": "npm run lint && jest",
@@ -40,20 +40,19 @@
 		"axios": "^0.19.0",
 		"cheerio": "^1.0.0-rc.3",
 		"condense-whitespace": "^1.0.0",
+		"dotenv": "^10.0.0",
+		"dotenv-expand": "^5.1.0",
 		"fetch-everywhere": "^1.0.5",
 		"simple-zeropad": "^1.0.5",
 		"superb": "^3.0.0"
 	},
 	"devDependencies": {
-		"eslint": "6.3.0",
-		"eslint-config-airbnb": "18.0.1",
-		"eslint-config-airbnb-base": "^14.0.0",
-		"eslint-config-prettier": "6.2.0",
-		"eslint-plugin-import": "2.18.2",
-		"eslint-plugin-jest": "22.16.0",
-		"eslint-plugin-jsx-a11y": "^6.2.3",
-		"eslint-plugin-prettier": "3.1.0",
-		"eslint-plugin-react": "^7.17.0",
+		"eslint": "^7.32.0",
+		"eslint-config-airbnb-base": "^14.2.1",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.24.2",
+		"eslint-plugin-jest": "^24.4.2",
+		"eslint-plugin-prettier": "^4.0.0",
 		"husky": "^3.1.0",
 		"jest": "^24.5.0",
 		"prettier": "^1.18.2",
