@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const https = require('https');
+const condense = require('selective-whitespace');
 
 const agent = new https.Agent({
   rejectUnauthorized: false
@@ -13,10 +14,9 @@ const agent = new https.Agent({
  */
 const getMenu = $ => {
   const day = {
-    date: $('.date')
+    date: condense($('.date')
       .first()
-      .text()
-      .trim(),
+      .text()),
     meals: {},
   };
 
@@ -55,6 +55,15 @@ const getMenu = $ => {
         .trim()
         .replace('Extern', 'CHF'))
       .get();
+  });
+
+  // clean up the extra whitespace in the elements
+  Object.keys(day.meals).forEach(dayKey => {
+    const meal = day.meals[dayKey];
+    meal.category = condense(meal.category);
+    meal.title = condense(meal.title);
+    meal.prices = meal.prices.map(price => condense(price));
+    meal.description = typeof meal.description === 'string' ? condense(meal.description) : meal.description;
   });
 
   return day;

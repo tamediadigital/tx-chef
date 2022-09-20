@@ -3,7 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const https = require('https');
 const cheerio = require('cheerio');
-const condense = require('condense-whitespace');
+const condense = require('selective-whitespace');
 
 const agent = new https.Agent({
     rejectUnauthorized: false
