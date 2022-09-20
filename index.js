@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const condense = require('condense-whitespace');
+const condense = require('selective-whitespace');
 const getTodaysDateKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
 const eurest = require('./helpers/eurest');
@@ -35,15 +35,15 @@ function objectify(text) {
 
 		section.split('\n').forEach(s => {
 			if (s.indexOf(CATEGORY_TOKEN) === 0) {
-				obj.category = s.replace(CATEGORY_TOKEN, '').trim();
+				obj.category = condense(s.replace(CATEGORY_TOKEN, ''));
 			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
-				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '').trim();
+				obj.mealTitle = condense(s.replace(MEAL_TITLE_TOKEN, ''));
 			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
-				obj.description = s.replace(DESCRIPTION_TOKEN, '').trim();
+				obj.description = condense(s.replace(DESCRIPTION_TOKEN, ''));
 			} else if (s.indexOf(PRICE_TOKEN) === 0) {
-				obj.price = s.replace(PRICE_TOKEN, '').trim();
+				obj.price = condense(s.replace(PRICE_TOKEN, ''));
 			} else if (s.indexOf(ID_TOKEN) === 0) {
-				obj.id = s.replace(ID_TOKEN, '').trim();
+				obj.id = condense(s.replace(ID_TOKEN, ''));
 			}
 		});
 
@@ -113,10 +113,10 @@ const getMenuData = (url, sourceLanguage) => {
 					const englishObject = objectify(response.data.TranslatedText);
 
 					if (DEBUG_ATRIUM || DEBUG_EUREST) {
-						console.log(originalText, '\n');
-						console.log(response.data.TranslatedText, '\n');
-						console.log({originalTextObject});
-						console.log({englishObject});
+						console.log('originalText', originalText, '\n');
+						console.log('response.data.TranslatedText', response.data.TranslatedText, '\n');
+						console.log('originalTextObject', originalTextObject, '\n');
+						console.log('englishObject', englishObject, '\n');
 					};
 
 					// Merge the english translations with the original language
