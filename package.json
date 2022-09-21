@@ -10,14 +10,15 @@
 		"url": "https://github.com/radiovisual"
 	},
 	"engines": {
-		"node": ">=14"
+		"node": ">=16"
 	},
 	"scripts": {
 		"test": "npm run lint && jest",
-		"deploy:dev": "npm run test && serverless deploy -v --stage dev",
-		"deploy:prod": "npm run test && serverless deploy -v --stage prod",
-		"logs": "serverless logs --function run --tail",
-		"invoke:local": "SLS_DEBUG=* serverless invoke local --function run",
+		"deploy:dev": "npm run test && npx serverless deploy --stage dev",
+		"deploy:prod": "npm run test && npx serverless deploy --stage prod",
+		"logs": "npx serverless logs --function run --tail",
+		"invoke:local:dev": "DEBUG=true SLS_DEBUG=* npx serverless invoke local --function run --stage dev",
+		"invoke:local:prod": "DEBUG=true SLS_DEBUG=* npx serverless invoke local --function run --stage prod",
 		"lint": "eslint . --ignore-path .gitignore --ext .js",
 		"fix": "eslint . --ext .js --fix"
 	},
@@ -37,12 +38,12 @@
 	],
 	"dependencies": {
 		"aws-sdk": "^2.587.0",
-		"axios": "^0.19.0",
 		"cheerio": "^1.0.0-rc.3",
 		"condense-whitespace": "2.0.0",
 		"dotenv": "^10.0.0",
 		"dotenv-expand": "^5.1.0",
 		"fetch-everywhere": "^1.0.5",
+		"puppeteer": "^18.0.3",
 		"selective-whitespace": "^1.0.4",
 		"serverless": "^3.22.0",
 		"simple-zeropad": "^1.0.5",

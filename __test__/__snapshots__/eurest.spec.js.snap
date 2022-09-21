@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`exports a promise with menu data 1`] = `
+exports[`get eurest menu data exports a promise with menu data 1`] = `
 Object {
   "date": "20.09.22",
   "meals": Object {

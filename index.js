@@ -19,7 +19,7 @@ const COST_PER_CHAR = 0.000015;
 // Creates a client
 const translate = new AWS.Translate({ apiVersion: '2017-07-01' });
 
-const { DEBUG_ATRIUM, DEBUG_EUREST } = process.env;
+const { DEBUG_ATRIUM, DEBUG_EUREST, DEBUG } = process.env;
 
 /**
  * Build a data object from a string with special delimeters.
@@ -68,11 +68,12 @@ const getMenuData = (url, sourceLanguage) => {
 		const scrapedPage = url.includes('eurest') ? eurest : atrium;
 
 		scrapedPage(url).then(data => {
-			console.log(data);
 			console.log('\n\n\n\n\n\n\n--------');
 			const todaysItemKey = getTodaysDateKey();
+			console.log(`scraped page data for url ${url} for day ${todaysItemKey} `, data);
 
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
+				console.log(`No menu data for ${todaysItemKey} via url: ${url}`, data);
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
 				Object.keys(data.meals).forEach(menuItemKey => {
@@ -112,7 +113,7 @@ const getMenuData = (url, sourceLanguage) => {
 
 					const englishObject = objectify(response.data.TranslatedText);
 
-					if (DEBUG_ATRIUM || DEBUG_EUREST) {
+					if (DEBUG_ATRIUM || DEBUG_EUREST || DEBUG) {
 						console.log('originalText', originalText, '\n');
 						console.log('response.data.TranslatedText', response.data.TranslatedText, '\n');
 						console.log('originalTextObject', originalTextObject, '\n');

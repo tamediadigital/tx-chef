@@ -1,13 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
 const cheerio = require('cheerio');
-const https = require('https');
 const condense = require('selective-whitespace');
-
-const agent = new https.Agent({
-  rejectUnauthorized: false
-});
+const puppeteer = require('puppeteer');
 
 /**
  * Get the daily menu details from a Eurest page
@@ -72,13 +67,25 @@ const getMenu = $ => {
 /**
  * Export promise
  */
-module.exports = url =>
-	axios.get(url, { httpsAgent: agent }).then(res => {
-  const { data } = res;
-
-  if (process.env.DEBUG_EUREST) {
+module.exports = async (url, debug = false) => {
+  if (process.env.DEBUG_EUREST || debug) {
     const werdinoData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/werdino.html'), 'utf8');
-    return getMenu(cheerio.load(werdinoData));
+    return getMenu(cheerio.load(werdinoData, { ignoreWhitespace: true }));
   }
-  return getMenu(cheerio.load(data));
-});
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+
+  await page.goto(url, {
+    waitUntil: 'networkidle0',
+  });
+
+  const pageData = await page.evaluate(() => ({
+        html: document.documentElement.innerHTML,
+    }));
+
+  await browser.close();
+  return getMenu(cheerio.load(pageData.html, { ignoreWhitespace: true }));
+};
+
+module.exports.getMenu = getMenu;
