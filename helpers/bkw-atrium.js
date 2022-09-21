@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 const condense = require('selective-whitespace');
-const puppeteer = require('puppeteer');
+const chromium = require('chrome-aws-lambda');
 
 /**
  * Get BKW Atrium daily menu
@@ -37,12 +37,11 @@ const getMenu = $ => {
 		// Atrium does not use categories, but this will keep the data structure similar to eurest
 		day.meals[id].category = '';
 
-		day.meals[id].title = 
-			$menuSection
-				.find('.menu-title')
-				.text()
-				.replace(/\s+/gm, ' ')
-				.trim();
+		day.meals[id].title = $menuSection
+			.find('.menu-title')
+			.text()
+			.replace(/\s+/gm, ' ')
+			.trim();
 
 		day.meals[id].provenance = condense(
 			$menuSection
@@ -80,22 +79,46 @@ const getMenu = $ => {
  */
 module.exports = async (url, debug = false) => {
 	if (process.env.DEBUG_ATRIUM || debug) {
-	    const atriumData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/bkw-atrium.html'), 'utf8');
+		const atriumData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/bkw-atrium.html'), 'utf8');
 		return getMenu(cheerio.load(atriumData, { ignoreWhitespace: true }));
 	}
-	
-	const browser = await puppeteer.launch();
-	const page = await browser.newPage();
-	
-	await page.goto(url, {
-		waitUntil: 'networkidle0',
-	});
-	
-	const pageData = await page.evaluate(() => ({
+
+	let browser;
+
+	try {
+		// We load pupputeer only for local tests, otherwise puppeteer is
+		// too big of a dependency to fit in a lambda function
+		if (process.env.ENVIRONMENT === 'local') {
+			const puppeteer = require('puppeteer'); // eslint-disable-line import/no-extraneous-dependencies, global-require
+			browser = await puppeteer.launch();
+		} else {
+			// In the real lambda function we use the puppeteer version provided by the lambda environment
+			browser = await chromium.puppeteer.launch({
+				args: chromium.args,
+				defaultViewport: chromium.defaultViewport,
+				executablePath: await chromium.executablePath,
+				headless: chromium.headless,
+				ignoreHTTPSErrors: true,
+			});
+		}
+
+		const page = await browser.newPage();
+
+		await page.goto(url, {
+			waitUntil: 'networkidle0',
+		});
+
+		const pageData = await page.evaluate(() => ({
 			html: document.documentElement.innerHTML,
 		}));
-	
-	await browser.close();
-	return getMenu(cheerio.load(pageData.html, { ignoreWhitespace: true }));
-	};
 
+		await browser.close();
+		return getMenu(cheerio.load(pageData.html, { ignoreWhitespace: true }));
+	} catch (error) {
+		console.log('ERROR in ATRIUM SCRAPING', error);
+	} finally {
+		if (browser !== null) {
+			await browser.close();
+		}
+	}
+};

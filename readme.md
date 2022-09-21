@@ -59,8 +59,10 @@ $ npx serverless logs --function run --tail
 ### Deploy the Function Locally for Testing
 
 :bulb: Running locally will apply the `dev` stage by default
+:bulb: Setting `ENVIRONMENT=local` will tell the function to use the local version of Puppeteer, otherwise the lambda will try to use the AWS-provided version of Puppeteer, which is too big of a dependency to package with the lambda bundle (which needs to be 50Mb unpacked).
+
 ```
-SLS_DEBUG=* npx serverless invoke local --function run --stage dev
+ENVIRONMENT=local SLS_DEBUG=* npx serverless invoke local --function run --stage dev
 ```
 
 ### Debugging
