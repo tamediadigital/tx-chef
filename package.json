@@ -43,6 +43,7 @@
 		"dotenv": "^10.0.0",
 		"dotenv-expand": "^5.1.0",
 		"fetch-everywhere": "^1.0.5",
+		"puppeteer-core": "^18.0.4",
 		"selective-whitespace": "^1.0.4",
 		"simple-zeropad": "^1.0.5",
 		"superb": "^3.0.0"
