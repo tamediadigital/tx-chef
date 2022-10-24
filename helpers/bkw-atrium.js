@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
+const axios = require('axios').default;
 const https = require('https');
 const cheerio = require('cheerio');
 const condense = require('selective-whitespace');
