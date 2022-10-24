@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-const condense = require('condense-whitespace');
+const condense = require('selective-whitespace');
 const getTodaysDateKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
 const eurest = require('./helpers/eurest');
@@ -19,7 +19,7 @@ const COST_PER_CHAR = 0.000015;
 // Creates a client
 const translate = new AWS.Translate({ apiVersion: '2017-07-01' });
 
-const { DEBUG_ATRIUM, DEBUG_EUREST } = process.env;
+const { DEBUG_ATRIUM, DEBUG_EUREST, DEBUG } = process.env;
 
 /**
  * Build a data object from a string with special delimeters.
@@ -35,15 +35,15 @@ function objectify(text) {
 
 		section.split('\n').forEach(s => {
 			if (s.indexOf(CATEGORY_TOKEN) === 0) {
-				obj.category = s.replace(CATEGORY_TOKEN, '').trim();
+				obj.category = condense(s.replace(CATEGORY_TOKEN, ''));
 			} else if (s.indexOf(MEAL_TITLE_TOKEN) === 0) {
-				obj.mealTitle = s.replace(MEAL_TITLE_TOKEN, '').trim();
+				obj.mealTitle = condense(s.replace(MEAL_TITLE_TOKEN, ''));
 			} else if (s.indexOf(DESCRIPTION_TOKEN) === 0) {
-				obj.description = s.replace(DESCRIPTION_TOKEN, '').trim();
+				obj.description = condense(s.replace(DESCRIPTION_TOKEN, ''));
 			} else if (s.indexOf(PRICE_TOKEN) === 0) {
-				obj.price = s.replace(PRICE_TOKEN, '').trim();
+				obj.price = condense(s.replace(PRICE_TOKEN, ''));
 			} else if (s.indexOf(ID_TOKEN) === 0) {
-				obj.id = s.replace(ID_TOKEN, '').trim();
+				obj.id = condense(s.replace(ID_TOKEN, ''));
 			}
 		});
 
@@ -68,11 +68,12 @@ const getMenuData = (url, sourceLanguage) => {
 		const scrapedPage = url.includes('eurest') ? eurest : atrium;
 
 		scrapedPage(url).then(data => {
-			console.log(data);
 			console.log('\n\n\n\n\n\n\n--------');
 			const todaysItemKey = getTodaysDateKey();
+			console.log(`scraped page data for url ${url} for day ${todaysItemKey} `, data);
 
 			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
+				console.log(`No menu data for ${todaysItemKey} via url: ${url}`, data);
 				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
 			} else {
 				Object.keys(data.meals).forEach(menuItemKey => {
@@ -112,11 +113,11 @@ const getMenuData = (url, sourceLanguage) => {
 
 					const englishObject = objectify(response.data.TranslatedText);
 
-					if (DEBUG_ATRIUM || DEBUG_EUREST) {
-						console.log(originalText, '\n');
-						console.log(response.data.TranslatedText, '\n');
-						console.log({originalTextObject});
-						console.log({englishObject});
+					if (DEBUG_ATRIUM || DEBUG_EUREST || DEBUG) {
+						console.log('originalText', originalText, '\n');
+						console.log('response.data.TranslatedText', response.data.TranslatedText, '\n');
+						console.log('originalTextObject', originalTextObject, '\n');
+						console.log('englishObject', englishObject, '\n');
 					};
 
 					// Merge the english translations with the original language

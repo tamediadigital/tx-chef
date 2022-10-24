@@ -1,58 +1,58 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`exports a promise with menu data 1`] = `
+exports[`get atrium menu exports a promise with menu data 1`] = `
 Object {
-  "date": "22.09.",
+  "date": "21.09.",
   "meals": Object {
     "0": Object {
       "category": "",
-      "description": "Heute in der Genusspause",
+      "description": "mit Zitronensauce, Couscous und Mangold mit Rahmsauce Add on: 1 ASC Krevettenspiess CHF 3.50",
       "id": "0",
       "prices": Array [
-        "16.50 CHF",
-        "12.50 CHF",
+        "13.50 CHF",
+        "9.50 CHF",
       ],
-      "provenance": "",
-      "title": "Menu Deluxe",
+      "provenance": "Herkunft: Krevetten: Vietnam, Zucht, Rotbarsch, Wildfang, Island",
+      "title": "Grilliertes MSC Rotbarschfilet",
       "vegan": false,
       "vegetarian": false,
     },
     "1": Object {
       "category": "",
-      "description": "mit Senfsauce, Kartoffelgratin und Blattspinat mit Muskat",
+      "description": "Vollkornpasta mit Pesto, Feta, Oliven, Cherrytomaten und Spinatblätter Add on: Samosas Stk. CHF 2.00",
       "id": "1",
       "prices": Array [
         "13.50 CHF",
         "9.50 CHF",
       ],
-      "provenance": "Kalb, Schweiz",
-      "title": "Kalbsragout",
+      "provenance": "",
+      "title": "Fusilli Nikos",
       "vegan": false,
-      "vegetarian": false,
+      "vegetarian": true,
     },
     "2": Object {
       "category": "",
-      "description": "mit frischem Salbei, Knoblauch-Dip und Spinatsalat",
+      "description": "mit Hackfleisch im Fladenbrot mit Joghurt-, oder Cocktailsauce inklusive 5 dl SV Ice Tea ... es het, solang's het ...",
       "id": "2",
+      "prices": Array [
+        "16.90 CHF",
+        "12.90 CHF",
+      ],
+      "provenance": "Poulet, Schweiz, Rind, Schweiz, Kalb, Schweiz",
+      "title": "Dürüm",
+      "vegan": false,
+      "vegetarian": false,
+    },
+    "3": Object {
+      "category": "",
+      "description": "mit Waldpilzsauce, Semmelknödel und Rotkraut mit Sultaninen",
+      "id": "3",
       "prices": Array [
         "13.50 CHF",
         "9.50 CHF",
       ],
-      "provenance": "",
-      "title": "Kürbis-Wähe",
-      "vegan": false,
-      "vegetarian": true,
-    },
-    "3": Object {
-      "category": "",
-      "description": "Lassen Sie sich täglich an der Menustation überraschen! ... es het, solang's het ...",
-      "id": "3",
-      "prices": Array [
-        "0.00 CHF",
-        "-4.00 CHF",
-      ],
-      "provenance": "",
-      "title": "Tageshit",
+      "provenance": "Schwein, Schweiz",
+      "title": "Schweins- Schulter- Braten",
       "vegan": false,
       "vegetarian": false,
     },

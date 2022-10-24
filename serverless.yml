@@ -1,15 +1,17 @@
 service: tx-chef
+app: tx-chef
 useDotenv: true
-frameworkVersion: ^2.59.0
+frameworkVersion: '3'
+
 provider:
-  lambdaHashingVersion: 20201221
   name: aws
   profile: tamedia
   region: eu-central-1
-  runtime: nodejs14.x
+  runtime: nodejs16.x
   timeout: 30
   stage: ${opt:stage, 'dev'}
-  role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
+  iam:
+    role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
 functions:
   run:
     handler: handler.run
