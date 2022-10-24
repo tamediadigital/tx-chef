@@ -2,7 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const cheerio = require('cheerio');
 const condense = require('selective-whitespace');
-const chromium = require('chrome-aws-lambda');
+const puppeteer = require('puppeteer-core');
+const chromium = require('@sparticuz/chromium');
 
 /**
  * Get the daily menu details from a Eurest page
@@ -77,21 +78,14 @@ module.exports = async (url, debug = false) => {
 
   try {
 
-    // We load pupputeer only for local tests, otherwise puppeteer is
-    // too big of a dependency to fit in a lambda function
-    if (process.env.ENVIRONMENT === 'local') {
-      const puppeteer = require('puppeteer'); // eslint-disable-line import/no-extraneous-dependencies, global-require
-      browser = await puppeteer.launch();
-    } else {
-      // In the real lambda function we use the puppeteer version provided by the lambda environment
-      browser = await chromium.puppeteer.launch({
-        args: chromium.args,
-        defaultViewport: chromium.defaultViewport,
-        executablePath: await chromium.executablePath,
-        headless: chromium.headless,
-        ignoreHTTPSErrors: true,
-      });
-    }
+    // We load puppeteer-core bc too big of a dependency to fit in a lambda function
+    browser = await puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: await chromium.executablePath,
+      headless: chromium.headless,
+      ignoreHTTPSErrors: true,
+    });
 
     const page = await browser.newPage();
 

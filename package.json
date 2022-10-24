@@ -37,9 +37,9 @@
 		"lambda"
 	],
 	"dependencies": {
+		"@sparticuz/chromium": "107.0.0",
 		"aws-sdk": "^2.587.0",
 		"cheerio": "^1.0.0-rc.3",
-		"chrome-aws-lambda": "^10.1.0",
 		"dotenv": "^10.0.0",
 		"dotenv-expand": "^5.1.0",
 		"fetch-everywhere": "^1.0.5",
@@ -59,7 +59,6 @@
 		"jest": "^24.5.0",
 		"prettier": "^1.18.2",
 		"prettier-eslint": "^9.0.1",
-		"puppeteer": "^19.1.0",
 		"serverless": "^3.22.0"
 	},
 	"husky": {
