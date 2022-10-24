@@ -1,18 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const cheerio = require('cheerio');
-const condense = require('selective-whitespace');
-const puppeteer = require('puppeteer-core');
-const chromium = require('@sparticuz/chromium');
+const https = require('https');
+
+const agent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 /**
  * Get the daily menu details from a Eurest page
  */
 const getMenu = $ => {
   const day = {
-    date: condense($('.date')
+    date: $('.date')
       .first()
-      .text()),
+      .text()
+      .trim(),
     meals: {},
   };
 
@@ -53,60 +57,19 @@ const getMenu = $ => {
       .get();
   });
 
-  // clean up the extra whitespace in the elements
-  Object.keys(day.meals).forEach(dayKey => {
-    const meal = day.meals[dayKey];
-    meal.category = condense(meal.category);
-    meal.title = condense(meal.title);
-    meal.prices = meal.prices.map(price => condense(price));
-    meal.description = typeof meal.description === 'string' ? condense(meal.description) : meal.description;
-  });
-
   return day;
 };
 
 /**
  * Export promise
  */
-module.exports = async (url, debug = false) => {
-  if (process.env.DEBUG_EUREST || debug) {
+module.exports = url =>
+	axios.get(url, { httpsAgent: agent }).then(res => {
+  const { data } = res;
+
+  if (process.env.DEBUG_EUREST) {
     const werdinoData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/werdino.html'), 'utf8');
-    return getMenu(cheerio.load(werdinoData, { ignoreWhitespace: true }));
+    return getMenu(cheerio.load(werdinoData));
   }
-
-  let browser;
-
-  try {
-
-    // We load puppeteer-core bc too big of a dependency to fit in a lambda function
-    browser = await puppeteer.launch({
-      args: chromium.args,
-      defaultViewport: chromium.defaultViewport,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
-      ignoreHTTPSErrors: true,
-    });
-
-    const page = await browser.newPage();
-
-    await page.goto(url, {
-      waitUntil: 'networkidle0',
-    });
-
-    const pageData = await page.evaluate(() => ({
-        html: document.documentElement.innerHTML,
-    }));
-
-  await browser.close();
-  return getMenu(cheerio.load(pageData.html, { ignoreWhitespace: true }));
-
-  } catch (error) {
-    console.log('ERROR in EUREST SCRAPING', error);
-  } finally {
-    if (browser !== null) {
-      await browser.close();
-    }
-  }
-};
-
-module.exports.getMenu = getMenu;
+  return getMenu(cheerio.load(data));
+});

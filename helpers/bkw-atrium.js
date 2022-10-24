@@ -1,9 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
+const https = require('https');
 const cheerio = require('cheerio');
 const condense = require('selective-whitespace');
-const puppeteer = require('puppeteer-core');
-const chromium = require('@sparticuz/chromium');
+
+const agent = new https.Agent({
+    rejectUnauthorized: false
+});
 
 /**
  * Get BKW Atrium daily menu
@@ -38,11 +42,12 @@ const getMenu = $ => {
 		// Atrium does not use categories, but this will keep the data structure similar to eurest
 		day.meals[id].category = '';
 
-		day.meals[id].title = $menuSection
-			.find('.menu-title')
-			.text()
-			.replace(/\s+/gm, ' ')
-			.trim();
+		day.meals[id].title = 
+			$menuSection
+				.find('.menu-title')
+				.text()
+				.replace(/\s+/gm, ' ')
+				.trim();
 
 		day.meals[id].provenance = condense(
 			$menuSection
@@ -78,41 +83,13 @@ const getMenu = $ => {
 /**
  * Export promise
  */
-module.exports = async (url, debug = false) => {
-	if (process.env.DEBUG_ATRIUM || debug) {
-		const atriumData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/bkw-atrium.html'), 'utf8');
-		return getMenu(cheerio.load(atriumData, { ignoreWhitespace: true }));
-	}
+module.exports = url =>
+	axios.get(url, { httpsAgent: agent }).then(res => {
+		const { data } = res;
 
-	let browser;
-
-	try {
-		// We use puppeteer-core because puputeer on its own is too big to fit in a lambda function
-	    browser = await puppeteer.launch({
-			args: chromium.args,
-			defaultViewport: chromium.defaultViewport,
-			executablePath: await chromium.executablePath,
-			headless: chromium.headless,
-			ignoreHTTPSErrors: true,
-		});
-
-		const page = await browser.newPage();
-
-		await page.goto(url, {
-			waitUntil: 'networkidle0',
-		});
-
-		const pageData = await page.evaluate(() => ({
-			html: document.documentElement.innerHTML,
-		}));
-
-		await browser.close();
-		return getMenu(cheerio.load(pageData.html, { ignoreWhitespace: true }));
-	} catch (error) {
-		console.log('ERROR in ATRIUM SCRAPING', error);
-	} finally {
-		if (browser !== null && browser.close) {
-			await browser.close();
-		}
-	}
-};
+		if (process.env.DEBUG_ATRIUM) {
+			const atriumData = fs.readFileSync(path.resolve(__dirname, '../__test__/fixtures/bkw-atrium.html'), 'utf8');
+			return getMenu(cheerio.load(atriumData));
+		  }
+		return getMenu(cheerio.load(data));
+	});
