@@ -19,5 +19,3 @@ functions:
     - schedule:
         rate: cron(0 5 ? * MON-FRI *)
         enabled: true
-    layers:
-      - arn:aws:s3:::puppeteer-chromium-lambda/chromium.zip
