@@ -59,7 +59,6 @@ $ npx serverless logs --function run --tail
 ### Deploy the Function Locally for Testing
 
 :bulb: Running locally will apply the `dev` stage by default
-:bulb: Setting `ENVIRONMENT=local` will tell the function to use the local version of Puppeteer, otherwise the lambda will try to use the AWS-provided version of Puppeteer, which is too big of a dependency to package with the lambda bundle (which needs to be 50Mb unpacked).
 
 ```
 ENVIRONMENT=local SLS_DEBUG=* npx serverless invoke local --function run --stage dev
@@ -71,7 +70,3 @@ It is sometimes easier to test the full flow with fixture data instead of trying
 
 - `DEBUG_EUREST` will you use the `__test__/fixtures/bkw-atrium.html` instead of scraping real Werdino (Eurest) webpage 
 - `DEBUG_ATRIUM` will use the `__test__/fixtures/werdino.html` instead of scraping the real Atrium webpage
-
-### Chromium Lambda Layer
-
-The chromium executable is made available to the Lambda function via a AWS Lambda layer. The zip file was created using this process: https://www.npmjs.com/package/@sparticuz/chromium#aws-ambda-layer and then uploaded to AWS S3. The ARN from the S3 location of the chromium.zip file was then added to the `layers` value in the serverless.yaml file.
