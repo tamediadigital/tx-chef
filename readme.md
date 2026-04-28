@@ -1,18 +1,17 @@
-![](media/hamburger300x300.png)
+
 
 # TX Chef
 
-![](https://github.com/tamediadigital/tx-chef/workflows/build/badge.svg) :pizza: :hamburger: 
+ :pizza: :hamburger: 
 
-> The Daily menus for [Werdino](https://clients.eurest.ch/de/tamediazuerich/menu), [Bubenberg](https://clients.eurest.ch/dzz/de/Bubenberg), [Bern Zentweg](https://www.eurest.ch/dzb), [Bussigny](https://www.eurest.ch/cil), [Le Scoop](https://www.eurest.ch/tamedia-lausanne) and [BKW Atrium](https://bkw-bern.sv-restaurant.ch/de/menuplan) translated to English and delivered straight to Slack via AWS Lambda
-
+> The Daily menus for [Werdino](https://clients.eurest.ch/de/tamediazuerich/menu), [Le Scoop](https://www.eurest.ch/tamedia-lausanne), and [Bubenberg](https://clients.eurest.ch/dzz/de/Bubenberg) translated to English and delivered straight to Slack via AWS Lambda
 
 :trophy:
 
-> _"TX Chef is the most important Slack Integration of the 21st century"_   
-~ Chuck Norris, Inventor of Slack, the Internet and the 21st century
+> *"TX Chef is the most important Slack Integration of the 21st century"*  
+> ~ Chuck Norris, Inventor of Slack, the Internet and the 21st century
 
-![](media/screenshot.png)
+
 
 ## Serverless
 
@@ -24,21 +23,19 @@
 
 1. Make sure you have the Serverless framework installed globally: `npm install -g serverless`
 2. You should have an AWS profile named `tamedia` with the appropriate permissions to create lambdas via the serverless framework (and use AWS Translate)
+
 ```
   serverless config credentials --provider aws --key <KEY> --secret <SECRET> --profile tamedia
 ```
-3. Save two files named `.env.dev` (for testing) and `env.prod` (for production) with the following structure:
 
-:bulb: **Note:** You can have more than one webhook assigned, you just need to seperate the multiple webhook addresses with a comma
+1. Save two files named `.env.dev` (for `--stage dev`) and `.env.prod` (for `--stage prod`) in the project root. Serverless loads `.env.<stage>` first when `useDotenv: true` (see `serverless.yml`); if that file is missing, it falls back to `.env`.
+
+:bulb: **Note:** You can assign more than one webhook per variable by separating the URLs with **commas** (no spaces).
 
 ```
-BERN_ZENTWEG_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
-BKW_ATRIUM_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
-BUBENBERG_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
-BUSSIGNY_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
-LE_SCOOP_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
 WERDINO_TAMEDIA_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
-WERDINO_DOODLE_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+LE_SCOOP_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
+BUBENBERG_WEBHOOK_ADDRESS=https://hooks.slack.com/services/...
 ```
 
 ### Deploy to AWS Lambda
@@ -66,7 +63,8 @@ ENVIRONMENT=local SLS_DEBUG=* npx serverless invoke local --function run --stage
 
 ### Debugging
 
-It is sometimes easier to test the full flow with fixture data instead of trying to use the real thing (like if you are trying to troubleshoot problems on a weekend, and the menu pages don't have valid menu data to test with). For this, you can use the following enviornment variables when you are deploying the function locally:
+It is sometimes easier to test the full flow with fixture data instead of trying to use the real thing (like if you are trying to troubleshoot problems on a weekend, and the menu pages don't have valid menu data to test with). For this, you can use the following environment variables when you are deploying the function locally:
 
-- `DEBUG_EUREST` will you use the `__test__/fixtures/bkw-atrium.html` instead of scraping real Werdino (Eurest) webpage 
-- `DEBUG_ATRIUM` will use the `__test__/fixtures/werdino.html` instead of scraping the real Atrium webpage
+- `DEBUG_EUREST` uses `__test__/fixtures/werdino.html` instead of scraping the real Eurest (Werdino-style) page (`helpers/eurest.js`).
+- `DEBUG_ATRIUM` uses `__test__/fixtures/bkw-atrium.html` instead of scraping the real Atrium / BKW page (`helpers/bkw-atrium.js`).
+

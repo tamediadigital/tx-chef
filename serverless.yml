@@ -1,21 +1,35 @@
 service: tx-chef
-app: tx-chef
-useDotenv: true
+# v4+ requires `serverless login` / license; stay on v3 for open deploys. Pin matches devDependency.
 frameworkVersion: '3'
+useDotenv: true
+
+# v3 schema lags AWS; nodejs22.x still deploys. "off" avoids noisy false-positive runtime warnings.
+configValidationMode: off
 
 provider:
   name: aws
-  profile: tamedia
+
   region: eu-central-1
-  runtime: nodejs16.x
+  runtime: nodejs22.x
   timeout: 30
   stage: ${opt:stage, 'dev'}
-  iam:
-    role: arn:aws:iam::716110578696:role/service-role/info-werdino-lambda-role-gfqzye3q
+
+
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - translate:TranslateText
+      Resource: '*'
+
+  environment:
+    WERDINO_TAMEDIA_WEBHOOK_ADDRESS: ${env:WERDINO_TAMEDIA_WEBHOOK_ADDRESS, ''}
+    LE_SCOOP_WEBHOOK_ADDRESS: ${env:LE_SCOOP_WEBHOOK_ADDRESS, ''}
+    BUBENBERG_WEBHOOK_ADDRESS: ${env:BUBENBERG_WEBHOOK_ADDRESS, ''}
+
 functions:
   run:
     handler: handler.run
     events:
-    - schedule:
-        rate: cron(0 5 ? * MON-FRI *)
-        enabled: true
+      - schedule:
+          rate: cron(0 5 ? * MON-FRI *)
+          enabled: true

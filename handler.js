@@ -1,4 +1,3 @@
-const fetch = require('fetch-everywhere');
 const messageBuilder = require('./helpers/messageBuilder');
 const noDataTodayMessage = require('./helpers/noDataTodayMessage');
 const devConfig = require('./config/config.dev.json'); // eslint-disable-line import/no-unresolved
@@ -30,40 +29,16 @@ const ENVIORNMENT_DATA = {
 		WEBHOOKS: getWebhookAddresses('WERDINO_TAMEDIA_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
-	WERDINO_DOODLE: {
-		NAME: 'Werdino',
-		URL: 'https://clients.eurest.ch/de/tamediazuerich/menu',
-		WEBHOOKS: getWebhookAddresses('WERDINO_DOODLE_WEBHOOK_ADDRESS'),
-		SOURCE_LANGUAGE: 'de',
-	},
-	BUBENBERG: {
-		NAME: 'Bubenberg',
-		URL: 'https://clients.eurest.ch/dzz/de/Bubenberg',
-		WEBHOOKS: getWebhookAddresses('BUBENBERG_WEBHOOK_ADDRESS'),
-		SOURCE_LANGUAGE: 'de',
-	},
-	BERN_ZENTWEG: {
-		NAME: 'Bern Zentweg',
-		URL: 'https://www.eurest.ch/dzb',
-		WEBHOOKS: getWebhookAddresses('BERN_ZENTWEG_WEBHOOK_ADDRESS'),
-		SOURCE_LANGUAGE: 'de',
-	},
-	BUSSIGNY: {
-		NAME: 'Bussigny',
-		URL: 'https://www.eurest.ch/cil',
-		WEBHOOKS: getWebhookAddresses('BUSSIGNY_WEBHOOK_ADDRESS'),
-		SOURCE_LANGUAGE: 'fr',
-	},
 	LE_SCOOP: {
 		NAME: 'Le Scoop',
 		URL: 'https://www.eurest.ch/tamedia-lausanne',
 		WEBHOOKS: getWebhookAddresses('LE_SCOOP_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'fr',
 	},
-	BKW_ATRIUM: {
-		NAME: 'BKW Atrium',
-		URL: 'https://bkw-bern.sv-restaurant.ch/de/menuplan',
-		WEBHOOKS: getWebhookAddresses('BKW_ATRIUM_WEBHOOK_ADDRESS'),
+	BUBENBERG: {
+		NAME: 'Bubenberg',
+		URL: 'https://clients.eurest.ch/dzz/de/Bubenberg',
+		WEBHOOKS: getWebhookAddresses('BUBENBERG_WEBHOOK_ADDRESS'),
 		SOURCE_LANGUAGE: 'de',
 	},
 };

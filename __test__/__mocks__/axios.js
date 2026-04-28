@@ -21,3 +21,4 @@ const get = jest.fn(url => {
 axios.get = get;
 
 module.exports = axios;
+module.exports.default = axios;

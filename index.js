@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+const { TranslateClient, TranslateTextCommand } = require('@aws-sdk/client-translate');
 const condense = require('selective-whitespace');
 const getTodaysDateKey = require('./helpers/getDayKey');
 const weHaveMenuDataForToday = require('./helpers/weHaveMenuDataForToday');
@@ -16,8 +16,9 @@ const { CATEGORY_TOKEN, PRICE_TOKEN, DESCRIPTION_TOKEN, MEAL_TITLE_TOKEN, ID_TOK
 // https://aws.amazon.com/translate/pricing/
 const COST_PER_CHAR = 0.000015;
 
-// Creates a client
-const translate = new AWS.Translate({ apiVersion: '2017-07-01' });
+const translateRegion =
+	process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'eu-central-1';
+const translateClient = new TranslateClient({ region: translateRegion });
 
 const { DEBUG_ATRIUM, DEBUG_EUREST, DEBUG } = process.env;
 
@@ -60,26 +61,28 @@ function objectify(text) {
  * @param {String} sourceLanguage
  * @returns {Object}
  */
-const getMenuData = (url, sourceLanguage) => {
-	// Here we will store the orignal text with special delimeters.
-	let originalText = '';
-
-	return new Promise((resolve, reject) => {
+const getMenuData = (url, sourceLanguage) =>
+	new Promise((resolve, reject) => {
 		const scrapedPage = url.includes('eurest') ? eurest : atrium;
 
-		scrapedPage(url).then(data => {
-			console.log('\n\n\n\n\n\n\n--------');
-			const todaysItemKey = getTodaysDateKey();
-			console.log(`scraped page data for url ${url} for day ${todaysItemKey} `, data);
+		scrapedPage(url)
+			.then(async (data) => {
+				let originalText = '';
 
-			if (!weHaveMenuDataForToday(data, todaysItemKey)) {
-				console.log(`No menu data for ${todaysItemKey} via url: ${url}`, data);
-				resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
-			} else {
+				console.log('\n\n\n\n\n\n\n--------');
+				const todaysItemKey = getTodaysDateKey();
+				console.log(`scraped page data for url ${url} for day ${todaysItemKey} `, data);
+
+				if (!weHaveMenuDataForToday(data, todaysItemKey)) {
+					console.log(`No menu data for ${todaysItemKey} via url: ${url}`, data);
+					resolve({ error: 'NO_MENU_DATA_TODAY', todaysItemKey });
+					return;
+				}
+
 				Object.keys(data.meals).forEach(menuItemKey => {
 					const item = data.meals[menuItemKey];
 					const { category } = item;
-				
+
 					const mealCategory = category || '';
 					originalText += `${CATEGORY_TOKEN} ${condense(mealCategory)}\n`;
 
@@ -97,31 +100,31 @@ const getMenuData = (url, sourceLanguage) => {
 					originalText += `${SEPERATOR}\n`;
 				});
 
-				const translationRequest = translate.translateText({
-					SourceLanguageCode: sourceLanguage,
-					TargetLanguageCode: 'en',
-					Text: originalText,
-				});
+				try {
+					const response = await translateClient.send(
+						new TranslateTextCommand({
+							SourceLanguageCode: sourceLanguage,
+							TargetLanguageCode: 'en',
+							Text: originalText,
+						})
+					);
 
-				translationRequest.on('success', (response) => {
 					const originalTextObject = objectify(originalText);
 
-					if (!response || !response.data || !response.data.TranslatedText) {
+					if (!response || !response.TranslatedText) {
 						reject(new Error('Unknown translation error occured'));
 						return;
 					}
 
-					const englishObject = objectify(response.data.TranslatedText);
+					const englishObject = objectify(response.TranslatedText);
 
 					if (DEBUG_ATRIUM || DEBUG_EUREST || DEBUG) {
 						console.log('originalText', originalText, '\n');
-						console.log('response.data.TranslatedText', response.data.TranslatedText, '\n');
+						console.log('response.TranslatedText', response.TranslatedText, '\n');
 						console.log('originalTextObject', originalTextObject, '\n');
 						console.log('englishObject', englishObject, '\n');
-					};
+					}
 
-					// Merge the english translations with the original language
-					// to make the block building easier
 					englishObject.forEach((obj, index) => {
 						if (obj.category) {
 							originalTextObject[index].categoryEn = obj.category;
@@ -139,18 +142,13 @@ const getMenuData = (url, sourceLanguage) => {
 					console.log(`Cost: ${textLength} chars * ${COST_PER_CHAR} = ${cost}`);
 
 					resolve(originalTextObject);
-				});
-
-				translationRequest.on('error', (error, response) => {
+				} catch (error) {
 					console.log('Error!');
-					console.log({ error, response });
+					console.log({ error });
 					reject(error);
-				});
-
-				translationRequest.send();
-			}
-		});
+				}
+			})
+			.catch(reject);
 	});
-};
 
 module.exports = getMenuData;
